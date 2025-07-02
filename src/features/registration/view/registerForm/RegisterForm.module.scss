@@ -1,0 +1,28 @@
+.form {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 32px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.formDescription {
+  margin-bottom: 24px;
+}
+.input {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 16px;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+}
+.formActions {
+  margin-top: 24px;
+}
+.submitButton {
+  width: 100%;
+}
+.loginLink {
+  margin-top: 16px;
+  text-align: center;
+}
