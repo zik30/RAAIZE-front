@@ -1,9 +1,9 @@
+import { toaster } from '@src/shared/lib/toaster/toaster';
 import { useSignUpMutation } from '@src/entities/auth/api/signUp';
 import { useAuth } from '@src/shared/hooks/useAuth';
-import { toaster } from '@src/shared/lib/toaster/toaster';
-import InputField from './InputField';
-import styles from './RegisterForm.module.scss';
+import { CustomButton, InputField, Typography } from '@src/shared/ui';
 import { useRegisterForm } from '../../model/useSignUp';
+import styles from './RegisterForm.module.scss';
 
 export const RegisterForm = () => {
   const { register: registerUser } = useAuth();
@@ -29,7 +29,7 @@ export const RegisterForm = () => {
     <div className={styles.form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formDescription}>
-          <h2>Registration</h2>
+          <Typography variant="h3">Registration</Typography>
         </div>
         <InputField
           control={control}
@@ -68,17 +68,16 @@ export const RegisterForm = () => {
           className={styles.input}
         />
         <div className={styles.formActions}>
-          <button
-            className={styles.submitButton}
-            type="submit"
+          <CustomButton
+            classnames={styles.submitButton}
+            size="medium"
+            color="primary"
             disabled={isPending}
           >
             {isPending ? 'Loading...' : 'Register'}
-          </button>
+          </CustomButton>
         </div>
       </form>
     </div>
   );
 };
-
-export default RegisterForm;

@@ -2,22 +2,17 @@ import { useAuth } from '@src/shared/hooks/useAuth';
 import { $mainApi } from '@src/shared/lib/requester/requester';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { toaster } from '@src/shared/lib/toaster/toaster';
 
 interface SignInPayload {
-  email: string;
   username: string;
   password: string;
 }
 
 interface SignInResponse {
-  email: string;
-  username: string;
-  id: number;
-  role: string;
-  credits: number;
-  created_at: string;
-  is_email_verified: boolean;
-  preferences_id: number;
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
 }
 
 interface ErrorResponse {
@@ -32,20 +27,17 @@ export const useSignInMutation = (redirect: RedirectFn) => {
   return useMutation<SignInResponse, AxiosError<ErrorResponse>, SignInPayload>({
     mutationKey: ['signIn'],
     mutationFn: async (data) => {
-      const response = await $mainApi.post<SignInResponse>(
-        'users/signin/',
-        data,
-      );
+      const response = await $mainApi.post<SignInResponse>('auth/login/', data);
       return response.data;
     },
     onSuccess: (response) => {
-      login(response);
+      login({ data: response });
+      toaster('success', 'Sign in successful!');
       redirect();
     },
     onError: (error) => {
       const errorMessage = error?.response?.data?.message ?? 'unknown';
-      // eslint-disable-next-line no-console
-      console.error('SignIn Error:', errorMessage);
+      toaster('error', `Sign in failed: ${errorMessage}`);
     },
   });
 };

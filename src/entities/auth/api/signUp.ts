@@ -31,7 +31,7 @@ export const useSignUpMutation = (
       redirect();
     },
     onError: (error: AxiosError) => {
-      // Try to extract error messages from the server response
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const data = (error.response?.data as any)?.message;
       const errorMessage =
         data?.email?.[0] ||
@@ -40,8 +40,6 @@ export const useSignUpMutation = (
         'Registration failed';
 
       toaster('error', errorMessage);
-      // eslint-disable-next-line no-console
-      console.error('SignUp Error:', errorMessage);
     },
   });
 };

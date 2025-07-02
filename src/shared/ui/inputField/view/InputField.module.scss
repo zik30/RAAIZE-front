@@ -1,0 +1,45 @@
+.inputFieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+
+  .inputContainer {
+    position: relative;
+    width: 100%;
+
+    .input {
+      width: 100%;
+      transition: all 0.2s ease-in-out;
+
+      &:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  .errorMessage {
+    margin-top: 4px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &::before {
+      content: '⚠';
+      font-size: 14px;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &.required .label::after {
+    content: ' *';
+    color: #e53e3e;
+  }
+}

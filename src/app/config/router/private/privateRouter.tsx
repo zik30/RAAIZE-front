@@ -1,13 +1,13 @@
 import { AuthGuard } from '@src/app/config/guards/AuthGuard';
-import { PresentationPage } from '@src/pages';
-import { routes } from '@src/shared/constants/constants';
+import { WorkplacePage } from '@src/pages';
+import { paths } from '@src/shared/constants/constants';
 
 export const privateRouter = [
   {
-    path: routes.allPresentations,
+    path: paths.workspacePage,
     element: (
       <AuthGuard>
-        <PresentationPage />,
+        <WorkplacePage />,
       </AuthGuard>
     ),
   },

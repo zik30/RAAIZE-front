@@ -4,16 +4,13 @@ import 'react-toastify/dist/ReactToastify.css';
 type ToastType = 'info' | 'success' | 'warning' | 'error' | 'default';
 
 const toastOptions: ToastOptions = {
-  autoClose: 2000,
+  autoClose: 3000,
   position: 'top-right',
 };
 
 export const toaster = (type: ToastType, message: string): void => {
   const options = {
     ...toastOptions,
-    progressClassName:
-      type === 'success' || type === 'info' ? 'custom-blue-progress' : '',
-    className: type === 'success' || type === 'info' ? 'custom-blue-icon' : '',
   };
 
   switch (type) {

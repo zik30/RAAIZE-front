@@ -1,19 +1,1 @@
 @use './null.scss';
-
-html,
-body {
-  background-color: $white;
-}
-
-html {
-  overflow: -moz-scrollbar-none;
-  -ms-overflow-style: none;
-}
-
-html::-webkit-scrollbar {
-  display: none;
-}
-
-.swiper-slide {
-  width: fit-content;
-}

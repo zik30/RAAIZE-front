@@ -1,13 +1,13 @@
 import { LoginPage, RegisterPage } from '@src/pages';
-import { routes } from '@src/shared/constants/constants';
+import { paths } from '@src/shared/constants/constants';
 
 export const authRouter = [
   {
-    path: routes.login,
+    path: paths.loginPage,
     element: <LoginPage />,
   },
   {
-    path: routes.register,
+    path: paths.registerPage,
     element: <RegisterPage />,
   },
 ];

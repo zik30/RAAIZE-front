@@ -1,4 +1,4 @@
-import { RegisterForm } from '@src/features/registration/view/registerForm/RegisterForm';
+import { RegisterForm } from '@src/features/registration';
 
 export const RegisterPage = () => {
   return (

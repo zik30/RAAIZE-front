@@ -18,8 +18,8 @@ export const RegisterPage = lazy(() =>
   })),
 );
 
-export const PresentationPage = lazy(() =>
-  import('./presentation/view/PresentationPage').then((module) => ({
-    default: module.PresentationPage,
+export const WorkplacePage = lazy(() =>
+  import('./workplace/view/WorkplacePage').then((module) => ({
+    default: module.WorkplacePage,
   })),
 );
