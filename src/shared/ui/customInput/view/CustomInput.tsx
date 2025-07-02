@@ -19,7 +19,8 @@ export const CustomInput: FC<InputProps> = ({
     variant && styles[variant],
     size && styles[size],
     fullWidth && styles.fullWidth,
-    styles.error && styles.error,
+    error && styles.error,
+    rounded && styles.rounded,
     className,
   );
 

@@ -5,16 +5,15 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@app': '/src/app',
-      '@shared': '/src/shared',
-      '@pages': '/src/pages',
-      '@widgets': '/src/widgets',
+      '@src': '/src',
     },
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@app/styles/forward.scss" as *;`,
+        additionalData: `
+          @use "@src/app/styles/forward.scss" as *;
+        `,
       },
     },
   },

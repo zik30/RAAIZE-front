@@ -1,7 +1,7 @@
 .inputWrapper {
   position: relative;
   display: inline-block;
-  width: auto;
+  width: 100%;
 }
 
 .input {
@@ -51,4 +51,8 @@
   top: 50%;
   transform: translateY(-50%);
   color: #999;
+}
+
+.rounded {
+  border-radius: 20px;
 }
