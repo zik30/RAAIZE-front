@@ -1,7 +1,21 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  resolve: {
+    alias: {
+      '@app': '/src/app',
+      '@shared': '/src/shared',
+      '@pages': '/src/pages',
+      '@widgets': '/src/widgets',
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@app/styles/forward.scss" as *;`,
+      },
+    },
+  },
+});

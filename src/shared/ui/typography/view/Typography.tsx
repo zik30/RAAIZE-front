@@ -1,15 +1,50 @@
-import { type FC } from 'react'
+import styles from './Typography.module.scss';
+import { type FC, type ReactNode, type JSX } from 'react';
+import classNames from 'classnames';
+import type { ITTypography, ITVariants } from '../types/types';
 
-export const Typography:FC = ({
-    variant, 
-    align, 
-    weight, 
-    color, 
-    children, 
-    className
-}) => {
+export const Typography: FC<ITTypography> = (props) => {
+  const {
+    variant,
+    color,
+    weight = 'regular',
+    align = 'left',
+    children,
+    onClick,
+    className,
+    truncate,
+    style,
+  } = props;
+
+  const Tags: Record<ITVariants, keyof JSX.IntrinsicElements> = {
+    h1: 'h1',
+    h2: 'h2',
+    h3: 'h3',
+    h4: 'h4',
+    bodyText: 'p',
+    smallText: 'p',
+  };
+
+  const classNamedGenerated = classNames(
+    styles[variant],
+    color && styles[color],
+    styles[weight],
+    styles[align],
+    className,
+  );
+
+  const TagName = Tags[variant];
+
+  const truncateString = (str: ReactNode, maxNumber: number): ReactNode => {
+    if (typeof str === 'string') {
+      return str.length <= maxNumber ? str : str.slice(0, maxNumber) + '...';
+    }
+    return str;
+  };
+
   return (
-    <div>:FC</div>
-  )
-}
-
+    <TagName onClick={onClick} className={classNamedGenerated} style={style}>
+      {truncate ? truncateString(children, truncate) : children}
+    </TagName>
+  );
+};
