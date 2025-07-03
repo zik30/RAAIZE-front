@@ -6,9 +6,8 @@ export const useRegisterForm = () =>
   useForm({
     resolver: yupResolver(registerSchema),
     defaultValues: {
-      first_name: '',
+      username: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
   });

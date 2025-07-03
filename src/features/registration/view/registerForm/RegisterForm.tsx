@@ -33,11 +33,11 @@ export const RegisterForm = () => {
         </div>
         <InputField
           control={control}
-          name="first_name"
+          name="username"
           type="text"
-          label="Name"
-          placeholder="Enter your name"
-          error={errors.first_name?.message}
+          label="Username"
+          placeholder="Enter your username"
+          error={errors.username?.message}
           className={styles.input}
         />
         <InputField
@@ -56,15 +56,6 @@ export const RegisterForm = () => {
           label="Password"
           placeholder="Enter your password"
           error={errors.password?.message}
-          className={styles.input}
-        />
-        <InputField
-          control={control}
-          name="confirmPassword"
-          type="password"
-          label="Confirm Password"
-          placeholder="Repeat your password"
-          error={errors.confirmPassword?.message}
           className={styles.input}
         />
         <div className={styles.formActions}>
