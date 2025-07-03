@@ -3,6 +3,7 @@ import { $mainApi } from '@src/shared/lib/requester/requester';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toaster } from '@src/shared/lib/toaster/toaster';
+import qs from 'qs';
 
 interface SignInPayload {
   username: string;
@@ -27,7 +28,15 @@ export const useSignInMutation = (redirect: RedirectFn) => {
   return useMutation<SignInResponse, AxiosError<ErrorResponse>, SignInPayload>({
     mutationKey: ['signIn'],
     mutationFn: async (data) => {
-      const response = await $mainApi.post<SignInResponse>('auth/login/', data);
+      const response = await $mainApi.post<SignInResponse>(
+        'auth/login',
+        qs.stringify(data),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
       return response.data;
     },
     onSuccess: (response) => {

@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { CustomButton, InputField, Typography } from '@src/shared/ui';
 import styles from './LoginForm.module.scss';
 import { useLoginForm } from '../model/useLogin';
+import { paths } from '@src/shared/constants/constants';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
 
-  const { mutate, isPending } = useSignInMutation(() => navigate('/home'));
+  const { mutate, isPending } = useSignInMutation(() =>
+    navigate(paths.homePage),
+  );
 
   const {
     control,
@@ -16,6 +19,7 @@ export const LoginForm = () => {
   } = useLoginForm();
 
   const onSubmit = (data: { username: string; password: string }) => {
+    console.log('Login form data:', data);
     mutate({
       username: data.username,
       password: data.password,
