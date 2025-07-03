@@ -18,9 +18,13 @@ export const RegisterForm = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
+    if (!data.email || !data.username || !data.password) {
+      toaster('error', 'Все поля обязательны для заполнения');
+      return;
+    }
     registerUser(mutate, {
       email: data.email,
-      username: data.first_name,
+      username: data.username,
       password: data.password,
     });
   };

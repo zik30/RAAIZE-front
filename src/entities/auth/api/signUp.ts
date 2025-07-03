@@ -32,11 +32,12 @@ export const useSignUpMutation = (
     },
     onError: (error: AxiosError) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data = (error.response?.data as any)?.message;
+      const data = error.response?.data as any;
       const errorMessage =
-        data?.email?.[0] ||
-        data?.username?.[0] ||
-        data?.password?.[0] ||
+        data?.message?.detail?.email?.[0] ||
+        data?.message?.detail?.username?.[0] ||
+        data?.message?.detail?.password?.[0] ||
+        data?.detail ||
         'Registration failed';
 
       toaster('error', errorMessage);
