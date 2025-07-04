@@ -1,0 +1,23 @@
+header {
+  display: fixed;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    height: 65px;
+    background-color: grey;
+    color: white;
+
+    .logo {
+      height: 60px;
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
+  }
+}
