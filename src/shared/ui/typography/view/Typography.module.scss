@@ -1,29 +1,29 @@
 .h1 {
-  font-size: 60px;
+  font-size: 50px;
   line-height: 110%;
   font-weight: 700;
 }
 
 .h2 {
-  font-size: 40px;
+  font-size: 30px;
   line-height: 110%;
   font-weight: 700;
 }
 
 .h3 {
-  font-size: 32px;
+  font-size: 25px;
   line-height: 110%;
   font-weight: 600;
 }
 
 .h4 {
-  font-size: 24px;
+  font-size: 21px;
   line-height: 110%;
   font-weight: 500;
 }
 
 .bodyText {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 140%;
   font-weight: 400;
 }
@@ -50,10 +50,10 @@
 
 // colors
 .black {
-  color: $grey500;
+  color: $black;
 }
 .white {
-  color: $grey000;
+  color: $white;
 }
 
 .error {
