@@ -6,4 +6,8 @@ export const publicRouter = [
     path: paths.homePage,
     element: <HomePage />,
   },
+  {
+    path: paths.editPage,
+    element: <div>edit</div>,
+  },
 ];
