@@ -33,11 +33,7 @@ export const AuthLayout = ({ children }: { children: ReactNode }) => {
     <div className={styles.authLayout}>
       <div className={styles.form}>{children}</div>
       <div className={styles.banner}>
-        <GradientBackground
-          className={styles.background}
-          animated
-          intensity="medium"
-        >
+        <GradientBackground className={styles.background} intensity="medium">
           <div className={styles.animatedInput}>
             <Typography variant="bodyText" color="black">
               {displayedText}&nbsp;
