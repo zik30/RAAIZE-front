@@ -7,8 +7,6 @@ export const HeroBlock: FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const nav = useNavigate();
 
-  console.log(inputValue);
-
   return (
     <section className={styles.wrapper}>
       <Container>

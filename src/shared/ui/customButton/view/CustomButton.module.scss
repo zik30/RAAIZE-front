@@ -12,20 +12,30 @@
 }
 
 .primary {
-  background-color: #007bff;
-  color: white;
+  background-color: $white;
+  color: $black;
 
   &:hover {
-    background-color: #0069d9;
+    background-color: #e7f2ff;
   }
 }
 
 .secondary {
-  background-color: #6c757d;
-  color: white;
+  background-color: $black;
+  color: $white;
+  border: 1px solid $grey300;
 
   &:hover {
-    background-color: #5a6268;
+    background-color: #3a3a3a;
+  }
+}
+
+.tertiary {
+  background: none;
+  color: $white;
+
+  &:hover {
+    color: #d0d0d0;
   }
 }
 

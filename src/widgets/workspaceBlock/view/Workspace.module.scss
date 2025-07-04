@@ -1,0 +1,20 @@
+.wrapper {
+  background-color: $black;
+  position: relative;
+  z-index: 100;
+  padding: 32px;
+  border-radius: 20px;
+
+  .pannel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+
+    .categories {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
