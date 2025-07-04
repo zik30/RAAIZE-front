@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { authRouter } from '../auth/authRouter';
 import { privateRouter } from '../private/privateRouter';
 import { publicRouter } from '../public/publicRouter';
+import { Presentation } from '@src/pages/presentation';
 
 export const router = () =>
   createBrowserRouter([
@@ -12,4 +13,8 @@ export const router = () =>
       element: <Layout />,
       children: [...publicRouter, ...privateRouter, ...authRouter],
     },
+    {
+      path: '/presentation',
+      element: <Presentation />,
+    }
   ]);

@@ -1,0 +1,17 @@
+.section {
+    display: flex;
+    gap: 150px;
+    background-color: $primary;
+    height: 100vh;
+}
+.chat {
+    width: 40%;
+    min-width: 320px;
+    max-width: 480px;
+    border-radius: 1.5px solid $grey000;
+    box-shadow: 0 4px 32px 0 rgba(123, 97, 255, 0.04);
+
+}
+.present {
+    margin: 50px auto;
+}
