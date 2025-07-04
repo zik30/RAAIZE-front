@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface InputFieldProps {
+export type InputFieldProps = {
+  type?: 'text' | 'checkbox' | 'range' | 'password' | 'email';
+  size?: 'small' | 'medium' | 'long';
   control: any;
   name: string;
   label?: string;
-  type?: string;
   placeholder?: string;
   error?: string;
   className?: string;
-}
+} & React.InputHTMLAttributes<HTMLInputElement>;
