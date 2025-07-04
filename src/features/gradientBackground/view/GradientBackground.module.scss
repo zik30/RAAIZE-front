@@ -15,14 +15,14 @@
 
     background: radial-gradient(
       circle,
-      rgba(243, 131, 0, 1) 49%,
-      rgba(243, 0, 29, 1) 53%,
-      rgba(255, 126, 234, 1) 56%,
-      rgba(228, 249, 255, 1) 58%,
-      rgba(213, 253, 185, 1) 61%,
-      rgba(99, 156, 242, 1) 68%,
-      rgba(78, 147, 255, 1) 75%,
-      rgba(28, 28, 28, 1) 100%
+      $layer1 49%,
+      $layer2 53%,
+      $layer3 56%,
+      $layer4 58%,
+      $layer5 61%,
+      $layer6 68%,
+      $layer7 75%,
+      $black 100%
     );
     filter: blur(60px);
     opacity: 0.85;

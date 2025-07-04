@@ -1,9 +1,11 @@
 import { GradientBackground } from '@src/features/gradientBackground';
+import { HeroBlock } from '@src/widgets/heroBlock';
 
 export const HomePage = () => {
   return (
-    <div style={{ height: '400vh', width: '100vw' }}>
+    <div>
       <GradientBackground />
+      <HeroBlock />
     </div>
   );
 };
