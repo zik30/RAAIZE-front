@@ -29,7 +29,7 @@ export const Header = () => {
             <span>{username}&apos;s SayDeck</span>
           ) : (
             <>
-              <Typography variant="bodyText">
+              <Typography variant="bodyText" color="white">
                 <Link to={paths.loginPage}>Login</Link>
                 {' | '}
                 <Link to={paths.registerPage}>Register</Link>
