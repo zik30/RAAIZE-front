@@ -10,6 +10,7 @@ export const InputField = ({
   name,
   label,
   type = 'text',
+  size,
   placeholder,
   error,
   className = '',
@@ -18,7 +19,7 @@ export const InputField = ({
     <div className={classNames(styles.inputFieldWrapper, className)}>
       {label && (
         <label htmlFor={name} className={styles.label}>
-          <Typography variant="smallText" color="black">
+          <Typography variant="smallText" color="white">
             {label}
           </Typography>
         </label>
@@ -32,7 +33,8 @@ export const InputField = ({
             <CustomInput
               {...field}
               id={name}
-              type={(type as 'text' | 'checkbox' | 'range') || 'text'}
+              type={type}
+              size={size}
               fullWidth={true}
               error={!!error}
               placeholder={placeholder}
