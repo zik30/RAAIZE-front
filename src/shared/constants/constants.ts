@@ -9,6 +9,7 @@ export const paths = {
   workspacePage: '/workspace',
   communityPage: '/community',
   editPage: '/edit',
+  googleCallback: '/auth/google/callback',
 };
 
 export const typeMessages = [
