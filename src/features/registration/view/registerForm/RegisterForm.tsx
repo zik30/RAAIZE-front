@@ -1,5 +1,4 @@
 import { toaster } from '@src/shared/lib/toaster/toaster';
-import { useSignUpMutation } from '@src/entities/auth/api/signUp';
 import { useAuth } from '@src/shared/hooks/useAuth';
 import { CustomButton, InputField, Typography } from '@src/shared/ui';
 import { useRegisterForm } from '../../model/useSignUp';
@@ -7,6 +6,7 @@ import styles from './RegisterForm.module.scss';
 import { Link } from 'react-router-dom';
 import { paths } from '@src/shared/constants/constants';
 import { IconGoogle } from '@src/shared/assets/icons/IconGoogle';
+import { useSignUpMutation } from '@src/entities/auth';
 
 export const RegisterForm = () => {
   const { register: registerUser } = useAuth();

@@ -1,13 +1,12 @@
-import { useSignInMutation } from '@src/entities/auth/api/signIn';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CustomButton, InputField, Typography } from '@src/shared/ui';
 import styles from './LoginForm.module.scss';
 import { useLoginForm } from '../model/useLogin';
 import { paths } from '@src/shared/constants/constants';
 import { IconGoogle } from '@src/shared/assets/icons/IconGoogle';
-import { initiateGoogleAuth } from '@src/entities/auth/api/googleAuth';
 import { useEffect } from 'react';
 import { toaster } from '@src/shared/lib/toaster/toaster';
+import { initiateGoogleAuth, useSignInMutation } from '@src/entities/auth';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -17,11 +16,9 @@ export const LoginForm = () => {
     navigate(paths.homePage),
   );
 
-  // Обработка ошибки OAuth при возврате с Google
   useEffect(() => {
     if (location.state?.showGoogleError && location.state?.error) {
       toaster('error', location.state.error);
-      // Очищаем состояние после показа ошибки
       navigate(location.pathname, { replace: true });
     }
   }, [location.state, navigate, location.pathname]);
@@ -52,7 +49,7 @@ export const LoginForm = () => {
               classnames={styles.customButton}
               size="small"
               onclick={initiateGoogleAuth}
-              // disabled={true}
+              type="button"
             >
               <IconGoogle />
               <Typography variant="smallText">Continue with Google</Typography>

@@ -1,29 +1,124 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useGoogleAuthMutation } from '@src/entities/auth/api/googleAuth';
+import { useEffect, useCallback, useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { paths } from '@src/shared/constants/constants';
+import { toaster } from '@src/shared/lib/toaster/toaster';
+import { useGoogleAuthMutation } from '@src/entities/auth';
+
+interface GoogleAuthParams {
+  code?: string;
+  error?: string;
+  error_description?: string;
+  state?: string;
+}
 
 export const useGoogleTokenHandler = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { mutate: handleGoogleAuth, isPending } = useGoogleAuthMutation(() => {
-    navigate(paths.homePage);
-  });
+  const handleSuccessRedirect = useCallback(() => {
+    navigate(paths.homePage, { replace: true });
+  }, [navigate]);
+
+  const {
+    mutate: handleGoogleAuth,
+    isPending,
+    error,
+  } = useGoogleAuthMutation(handleSuccessRedirect);
+
+  const googleAuthParams = useMemo((): GoogleAuthParams => {
+    const searchParams = new URLSearchParams(location.search);
+    return {
+      code: searchParams.get('code') || undefined,
+      error: searchParams.get('error') || undefined,
+      error_description: searchParams.get('error_description') || undefined,
+      state: searchParams.get('state') || undefined,
+    };
+  }, [location.search]);
+
+  const cleanupUrl = useCallback(() => {
+    const cleanPath = location.pathname;
+    window.history.replaceState({}, document.title, cleanPath);
+  }, [location.pathname]);
+
+  const handleOAuthError = useCallback(
+    (error: string, description?: string) => {
+      console.error('Google OAuth error:', { error, description });
+
+      const errorMessages: Record<string, string> = {
+        access_denied: 'Google authorization was cancelled',
+        invalid_request: 'Invalid authorization request',
+        unauthorized_client: 'Application is not authorized',
+        unsupported_response_type: 'Unsupported response type',
+        invalid_scope: 'Invalid authorization scope',
+        server_error: 'Google authorization server error',
+        temporarily_unavailable:
+          'Google authorization service is temporarily unavailable',
+      };
+
+      const userMessage =
+        errorMessages[error] || description || 'Google authorization failed';
+      toaster('error', userMessage);
+
+      navigate(paths.homePage, { replace: true });
+    },
+    [navigate],
+  );
+
+  const processGoogleCallback = useCallback(() => {
+    const { code, error, error_description } = googleAuthParams;
+
+    if (error) {
+      handleOAuthError(error, error_description);
+      cleanupUrl();
+      return;
+    }
+
+    if (code) {
+      console.log('Processing Google OAuth authorization code');
+      handleGoogleAuth(code);
+      cleanupUrl();
+      return;
+    }
+
+    if (
+      location.search &&
+      (location.search.includes('google') || location.search.includes('oauth'))
+    ) {
+      console.warn(
+        'Unexpected Google OAuth callback parameters:',
+        googleAuthParams,
+      );
+      toaster('warning', 'Invalid Google authorization response');
+      cleanupUrl();
+    }
+  }, [
+    googleAuthParams,
+    handleGoogleAuth,
+    handleOAuthError,
+    cleanupUrl,
+    location.search,
+  ]);
 
   useEffect(() => {
-    // Проверяем URL на наличие токена при загрузке приложения
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const isGoogleCallback =
+      location.pathname.includes('/auth/google/callback') ||
+      googleAuthParams.code ||
+      googleAuthParams.error;
 
-    if (token) {
-      // Если есть токен в URL, обрабатываем его
-      handleGoogleAuth(token);
-
-      // Очищаем URL от токена для безопасности
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
+    if (isGoogleCallback) {
+      processGoogleCallback();
     }
-  }, [handleGoogleAuth, navigate]);
+  }, [
+    location.pathname,
+    processGoogleCallback,
+    googleAuthParams.code,
+    googleAuthParams.error,
+  ]);
 
-  return { isPending };
+  return {
+    isPending,
+    hasError: !!error,
+    isProcessing: isPending,
+    authParams: googleAuthParams,
+  };
 };

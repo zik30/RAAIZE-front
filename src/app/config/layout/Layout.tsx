@@ -10,28 +10,31 @@ export const Layout = () => {
   const { isAuth, user, fetchUserData } = useAuth();
   const location = useLocation();
 
-  // Обработка Google токена при загрузке приложения
   useGoogleTokenHandler();
 
   useEffect(() => {
-    if (isAuth && !user) fetchUserData();
+    if (isAuth && !user) {
+      fetchUserData();
+    }
   }, [isAuth, user, fetchUserData]);
 
-  const hideLayout = [
+  const hideLayoutPages = [
     paths.loginPage,
     paths.registerPage,
     paths.googleCallback,
-  ].includes(location.pathname);
+  ];
+
+  const shouldHideLayout = hideLayoutPages.includes(location.pathname);
 
   return (
     <>
-      {!hideLayout && <Header />}
+      {!shouldHideLayout && <Header />}
       <main>
         <Suspense fallback={<div>Loading...</div>}>
           <Outlet />
         </Suspense>
       </main>
-      {!hideLayout && <Footer />}
+      {!shouldHideLayout && <Footer />}
     </>
   );
 };

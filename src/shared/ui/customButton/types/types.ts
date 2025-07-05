@@ -5,4 +5,5 @@ export interface CustomButtonProps {
   classnames?: string;
   onclick?: () => void;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }

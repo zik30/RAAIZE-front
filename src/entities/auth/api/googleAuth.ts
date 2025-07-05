@@ -2,6 +2,13 @@ import { useAuth } from '@src/shared/hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toaster } from '@src/shared/lib/toaster/toaster';
+import { BASE_URL } from '@src/shared/constants/constants';
+import { $mainApi } from '@src/shared/lib/requester/requester';
+
+const ENDPOINTS = {
+  GOOGLE_LOGIN: 'auth/google-login',
+  GOOGLE_CALLBACK: 'auth/google/callback',
+} as const;
 
 interface GoogleAuthResponse {
   access_token: string;
@@ -11,19 +18,30 @@ interface GoogleAuthResponse {
 
 interface ErrorResponse {
   message: string;
+  detail?: string;
 }
 
 type RedirectFn = () => void;
 
-// Функция для инициации Google OAuth
-export const initiateGoogleAuth = () => {
+const getCurrentRedirectUrl = (): string => {
+  const currentOrigin = window.location.origin;
+  return `${currentOrigin}/auth/google/callback`;
+};
+
+const createGoogleAuthUrl = (redirectUrl: string): string => {
+  const encodedRedirectUrl = encodeURIComponent(redirectUrl);
+  return `${BASE_URL}/api/v1/${ENDPOINTS.GOOGLE_LOGIN}?redirect_uri=${encodedRedirectUrl}`;
+};
+
+export const initiateGoogleAuth = (): void => {
   try {
-    // Редиректим пользователя на backend endpoint для Google OAuth
-    window.location.href =
-      'https://saydeck.onrender.com/api/v1/auth/google-login';
+    const redirectUrl = getCurrentRedirectUrl();
+    const authUrl = createGoogleAuthUrl(redirectUrl);
+
+    console.log('Initiating Google auth with redirect URL:', redirectUrl);
+    window.location.href = authUrl;
   } catch (error) {
     console.error('Error initiating Google auth:', error);
-    // Показываем уведомление пользователю
     toaster(
       'error',
       'Google authentication is temporarily unavailable. Please use email/password login.',
@@ -31,49 +49,69 @@ export const initiateGoogleAuth = () => {
   }
 };
 
-// Функция для обработки callback от Google
-export const handleGoogleCallback = async (token: string) => {
+export const handleGoogleCallback = async (
+  code: string,
+): Promise<GoogleAuthResponse> => {
+  if (!code?.trim()) {
+    throw new Error('Authorization code is required');
+  }
+
   try {
-    const response = await fetch(
-      'https://saydeck.onrender.com/api/v1/auth/google-callback',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),
-      },
+    console.log('Processing Google OAuth callback...');
+
+    const response = await $mainApi.post<GoogleAuthResponse>(
+      ENDPOINTS.GOOGLE_CALLBACK,
+      { code: code.trim() },
     );
 
-    if (!response.ok) {
-      throw new Error('Failed to authenticate with Google');
+    console.log('Google authentication successful');
+
+    if (!response.data.access_token || !response.data.refresh_token) {
+      throw new Error('Invalid authentication response: missing tokens');
     }
 
-    const data: GoogleAuthResponse = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
-    console.error('Google callback error:', error);
-    throw error;
+    console.error('Google callback processing failed:', error);
+
+    if (error instanceof AxiosError) {
+      const errorMessage =
+        error.response?.data?.detail ||
+        error.response?.data?.message ||
+        error.message ||
+        'Failed to authenticate with Google';
+      throw new Error(errorMessage);
+    }
+
+    throw error instanceof Error ? error : new Error('Unknown error occurred');
   }
 };
 
-// Hook для Google авторизации
 export const useGoogleAuthMutation = (redirect: RedirectFn) => {
   const { login } = useAuth();
 
   return useMutation<GoogleAuthResponse, AxiosError<ErrorResponse>, string>({
     mutationKey: ['googleAuth'],
-    mutationFn: async (token: string) => {
-      return await handleGoogleCallback(token);
-    },
+    mutationFn: handleGoogleCallback,
     onSuccess: (response) => {
-      login({ data: response });
-      toaster('success', 'Google sign in successful!');
-      redirect();
+      try {
+        login({ data: response });
+        toaster('success', 'Google sign in successful!');
+        redirect();
+      } catch (error) {
+        console.error('Error during login process:', error);
+        toaster('error', 'Login process failed. Please try again.');
+      }
     },
     onError: (error) => {
+      console.error('Google authentication mutation failed:', error);
+
       const errorMessage =
-        error?.response?.data?.message ?? 'Google authentication failed';
+        error?.response?.data?.detail ||
+        error?.response?.data?.message ||
+        error?.message ||
+        'Google authentication failed';
+
       toaster('error', errorMessage);
     },
   });
