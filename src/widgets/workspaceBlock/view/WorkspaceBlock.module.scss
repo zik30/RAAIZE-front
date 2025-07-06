@@ -1,0 +1,19 @@
+.wrapper {
+  background-color: $black;
+  padding: 32px;
+  border-radius: 20px;
+  margin-top: 50px;
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}

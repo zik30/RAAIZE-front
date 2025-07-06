@@ -1,4 +1,5 @@
 import { HomePage } from '@src/pages';
+import { CommunityPage } from '@src/pages/community';
 import { paths } from '@src/shared/constants/constants';
 
 export const publicRouter = [
@@ -7,7 +8,7 @@ export const publicRouter = [
     element: <HomePage />,
   },
   {
-    path: paths.editPage,
-    element: <div>edit</div>,
+    path: paths.communityPage,
+    element: <CommunityPage />,
   },
 ];

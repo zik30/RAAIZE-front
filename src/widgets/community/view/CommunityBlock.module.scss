@@ -30,12 +30,37 @@
 
       .templateImg {
         max-width: 340px;
+        position: relative;
 
         img {
           width: 100%;
           object-fit: contain;
         }
+
+        .buttons {
+          width: 100%;
+          position: absolute;
+          bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 0 15px;
+
+          .button {
+            width: 50%;
+          }
+        }
       }
     }
   }
+
+  .button {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.page {
+  margin-top: 100px;
 }

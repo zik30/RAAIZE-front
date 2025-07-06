@@ -1,9 +1,12 @@
 import { Container, CustomButton, Dropdown, Typography } from '@src/shared/ui';
 import { FC, useState } from 'react';
-import styles from './Workspace.module.scss';
-import { IWorkspaceProps } from '../types/types';
+import styles from './CommunityBlock.module.scss';
+import { ICommunityProps } from '../types/types';
 import { Link } from 'react-router-dom';
 import image from '@src/shared/assets/images/templateImg.png';
+import classNames from 'classnames';
+import { motion } from 'framer-motion';
+import { TemplateModal } from '@src/features/templateModal';
 
 const typeOptions = [
   {
@@ -39,7 +42,7 @@ const categories = [
   },
 ];
 
-const data = [
+const dataTest = [
   {
     id: 1,
     title: 'pulse-robot-template',
@@ -182,12 +185,16 @@ const data = [
   },
 ];
 
-export const Workspace: FC<IWorkspaceProps> = ({ viewButton = false }) => {
+export const CommunityBlock: FC<ICommunityProps> = ({ viewButton = true }) => {
   const [selectedType, setSelectedType] = useState('Popular');
+  const [isOpen, setIsOpen] = useState<null | number>(null);
+  const selectedTemplate = dataTest.find((template) => template.id === isOpen);
 
   return (
     <section>
-      <Container className={styles.wrapper}>
+      <Container
+        className={classNames(styles.wrapper, !viewButton && styles.page)}
+      >
         <Typography color="white" variant="h3">
           From the Community
         </Typography>
@@ -210,10 +217,43 @@ export const Workspace: FC<IWorkspaceProps> = ({ viewButton = false }) => {
           {viewButton && <CustomButton color="tertiary">View all</CustomButton>}
         </div>
         <div className={styles.templates}>
-          {data.map((template) => (
-            <div className={styles.template} key={template.id}>
+          {dataTest.slice(0, 16).map((template) => (
+            <motion.div
+              whileHover={'hover'}
+              initial="rest"
+              animate="rest"
+              className={styles.template}
+              key={template.id}
+            >
               <div className={styles.templateImg}>
-                <img src={template.url} alt="" />
+                <motion.img
+                  src={template.url}
+                  alt=""
+                  variants={{
+                    rest: { filter: 'brightness(1.0)' },
+                    hover: { filter: 'brightness(0.6)' },
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+                <motion.div
+                  className={styles.buttons}
+                  variants={{
+                    rest: { opacity: 0, scale: 0.8, pointerEvents: 'none' },
+                    hover: { opacity: 1, scale: 1, pointerEvents: 'auto' },
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <CustomButton classnames={styles.button} color="primary">
+                    Remix
+                  </CustomButton>
+                  <CustomButton
+                    onclick={() => setIsOpen(template.id)}
+                    classnames={styles.button}
+                    color="secondary"
+                  >
+                    Preview
+                  </CustomButton>
+                </motion.div>
               </div>
               <div className={styles.text}>
                 <Typography color="white" align="center" variant="bodyText">
@@ -223,9 +263,21 @@ export const Workspace: FC<IWorkspaceProps> = ({ viewButton = false }) => {
                   {template.subtitle}
                 </Typography>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
+        {viewButton && (
+          <div className={styles.button}>
+            <CustomButton color="primary">Show more</CustomButton>
+          </div>
+        )}
+        {selectedTemplate && (
+          <TemplateModal
+            name={selectedTemplate.title}
+            presentation={selectedTemplate.subtitle}
+            setIsOpen={setIsOpen}
+          />
+        )}
       </Container>
     </section>
   );

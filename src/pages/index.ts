@@ -18,8 +18,8 @@ export const RegisterPage = lazy(() =>
   })),
 );
 
-export const WorkplacePage = lazy(() =>
-  import('./workplace/view/WorkplacePage').then((module) => ({
-    default: module.WorkplacePage,
+export const WorkspacePage = lazy(() =>
+  import('./workspace/view/WorkspacePage').then((module) => ({
+    default: module.WorkspacePage,
   })),
 );

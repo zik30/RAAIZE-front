@@ -1,3 +1,3 @@
 export interface IWorkspaceProps {
-  viewButton?: boolean;
+  viewButton: boolean;
 }
