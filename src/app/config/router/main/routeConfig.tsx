@@ -10,6 +10,7 @@ export const router = () =>
     {
       path: paths.homePage,
       element: <Layout />,
-      children: [...publicRouter, ...privateRouter, ...authRouter],
+      children: [...publicRouter, ...privateRouter],
     },
+    ...authRouter,
   ]);

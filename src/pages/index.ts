@@ -23,3 +23,9 @@ export const WorkplacePage = lazy(() =>
     default: module.WorkplacePage,
   })),
 );
+
+export const GoogleAuthPage = lazy(() =>
+  import('./googleAuth/view/GoogleAuthPage').then((module) => ({
+    default: module.GoogleAuthPage,
+  })),
+);

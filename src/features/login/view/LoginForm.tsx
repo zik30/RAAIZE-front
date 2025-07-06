@@ -1,17 +1,27 @@
-import { useSignInMutation } from '@src/entities/auth/api/signIn';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CustomButton, InputField, Typography } from '@src/shared/ui';
 import styles from './LoginForm.module.scss';
 import { useLoginForm } from '../model/useLogin';
 import { paths } from '@src/shared/constants/constants';
 import { IconGoogle } from '@src/shared/assets/icons/IconGoogle';
+import { useEffect } from 'react';
+import { toaster } from '@src/shared/lib/toaster/toaster';
+import { initiateGoogleAuth, useSignInMutation } from '@src/entities/auth';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { mutate, isPending } = useSignInMutation(() =>
     navigate(paths.homePage),
   );
+
+  useEffect(() => {
+    if (location.state?.showGoogleError && location.state?.error) {
+      toaster('error', location.state.error);
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate, location.pathname]);
 
   const {
     control,
@@ -38,6 +48,8 @@ export const LoginForm = () => {
               color="tertiary"
               classnames={styles.customButton}
               size="small"
+              onclick={initiateGoogleAuth}
+              type="button"
             >
               <IconGoogle />
               <Typography variant="smallText">Continue with Google</Typography>
