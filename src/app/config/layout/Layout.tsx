@@ -5,6 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@src/shared/hooks/useAuth';
 import { paths } from '@src/shared/constants/constants';
 import { useGoogleTokenHandler } from '@src/shared/hooks/useGoogleTokenHandler';
+import { Loader } from '@src/shared/ui';
 
 export const Layout = () => {
   const { isAuth, user, fetchUserData } = useAuth();
@@ -30,7 +31,7 @@ export const Layout = () => {
     <>
       {!shouldHideLayout && <Header />}
       <main>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
       </main>
