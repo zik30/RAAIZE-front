@@ -3,12 +3,15 @@ import { useAuth } from '@src/shared/hooks/useAuth';
 import { CustomButton, InputField, Typography } from '@src/shared/ui';
 import { useRegisterForm } from '../../model/useSignUp';
 import styles from './RegisterForm.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { paths } from '@src/shared/constants/constants';
 import { IconGoogle } from '@src/shared/assets/icons/IconGoogle';
-import { useSignUpMutation } from '@src/entities/auth';
+import { initiateGoogleAuth, useSignUpMutation } from '@src/entities/auth';
+import { useEffect } from 'react';
 
 export const RegisterForm = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { register: registerUser } = useAuth();
   const { mutate, isPending } = useSignUpMutation(() => {
     toaster('success', 'Registration successful!');
@@ -32,6 +35,13 @@ export const RegisterForm = () => {
     });
   };
 
+  useEffect(() => {
+    if (location.state?.showGoogleError && location.state?.error) {
+      toaster('error', location.state.error);
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate, location.pathname]);
+
   return (
     <div className={styles.form}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -44,6 +54,8 @@ export const RegisterForm = () => {
               color="tertiary"
               classnames={styles.customButton}
               size="small"
+              onclick={initiateGoogleAuth}
+              type="button"
             >
               <IconGoogle />
               <Typography variant="smallText">Continue with Google</Typography>

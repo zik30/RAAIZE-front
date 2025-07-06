@@ -59,13 +59,20 @@ export const useGoogleTokenHandler = () => {
         errorMessages[error] || description || 'Google authorization failed';
       toaster('error', userMessage);
 
-      navigate(paths.homePage, { replace: true });
+      navigate(paths.loginPage, { replace: true });
     },
     [navigate],
   );
 
   const processGoogleCallback = useCallback(() => {
     const { code, error, error_description } = googleAuthParams;
+
+    console.log('Processing Google callback with params:', {
+      code: code ? 'present' : 'missing',
+      error,
+      error_description,
+      location: location.pathname + location.search,
+    });
 
     if (error) {
       handleOAuthError(error, error_description);
@@ -74,7 +81,10 @@ export const useGoogleTokenHandler = () => {
     }
 
     if (code) {
-      console.log('Processing Google OAuth authorization code');
+      console.log(
+        'Processing Google OAuth authorization code:',
+        code.substring(0, 20) + '...',
+      );
       handleGoogleAuth(code);
       cleanupUrl();
       return;
@@ -90,24 +100,36 @@ export const useGoogleTokenHandler = () => {
       );
       toaster('warning', 'Invalid Google authorization response');
       cleanupUrl();
+      navigate(paths.loginPage, { replace: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     googleAuthParams,
     handleGoogleAuth,
     handleOAuthError,
     cleanupUrl,
     location.search,
+    navigate,
   ]);
 
   useEffect(() => {
     const isGoogleCallback =
-      location.pathname.includes('/auth/google/callback') ||
+      location.pathname.includes('/api/v1/auth/google-callback') ||
       googleAuthParams.code ||
       googleAuthParams.error;
+
+    console.log('useGoogleTokenHandler useEffect:', {
+      pathname: location.pathname,
+      search: location.search,
+      isGoogleCallback,
+      hasCode: !!googleAuthParams.code,
+      hasError: !!googleAuthParams.error,
+    });
 
     if (isGoogleCallback) {
       processGoogleCallback();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     location.pathname,
     processGoogleCallback,

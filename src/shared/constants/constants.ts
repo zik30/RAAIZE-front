@@ -9,7 +9,7 @@ export const paths = {
   workspacePage: '/workspace',
   communityPage: '/community',
   editPage: '/edit',
-  googleCallback: '/auth/google/callback',
+  googleCallbackApi: '/api/v1/auth/google-callback',
 };
 
 export const typeMessages = [

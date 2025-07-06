@@ -7,7 +7,7 @@ import { $mainApi } from '@src/shared/lib/requester/requester';
 
 const ENDPOINTS = {
   GOOGLE_LOGIN: 'auth/google-login',
-  GOOGLE_CALLBACK: 'auth/google/callback',
+  GOOGLE_CALLBACK: 'auth/google-callback',
 } as const;
 
 interface GoogleAuthResponse {
@@ -25,7 +25,7 @@ type RedirectFn = () => void;
 
 const getCurrentRedirectUrl = (): string => {
   const currentOrigin = window.location.origin;
-  return `${currentOrigin}/auth/google/callback`;
+  return `${currentOrigin}/api/v1/auth/google/callback`;
 };
 
 const createGoogleAuthUrl = (redirectUrl: string): string => {
@@ -57,11 +57,21 @@ export const handleGoogleCallback = async (
   }
 
   try {
-    console.log('Processing Google OAuth callback...');
+    console.log(
+      'Processing Google OAuth callback with code:',
+      code.substring(0, 20) + '...',
+    );
+    console.log('BASE_URL:', BASE_URL);
+    console.log(
+      'Sending GET request to:',
+      `${BASE_URL}/api/v1/${ENDPOINTS.GOOGLE_CALLBACK}?code=${code.substring(
+        0,
+        20,
+      )}...`,
+    );
 
-    const response = await $mainApi.post<GoogleAuthResponse>(
-      ENDPOINTS.GOOGLE_CALLBACK,
-      { code: code.trim() },
+    const response = await $mainApi.get<GoogleAuthResponse>(
+      `${ENDPOINTS.GOOGLE_CALLBACK}?code=${encodeURIComponent(code.trim())}`,
     );
 
     console.log('Google authentication successful');
@@ -75,6 +85,13 @@ export const handleGoogleCallback = async (
     console.error('Google callback processing failed:', error);
 
     if (error instanceof AxiosError) {
+      console.error('Axios error details:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        url: error.config?.url,
+      });
+
       const errorMessage =
         error.response?.data?.detail ||
         error.response?.data?.message ||

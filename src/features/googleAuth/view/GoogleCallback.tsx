@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleTokenHandler } from '@src/shared/hooks/useGoogleTokenHandler';
 import { paths } from '@src/shared/constants/constants';
-import { Typography } from '@src/shared/ui';
+import { CustomButton, Typography } from '@src/shared/ui';
 import styles from './GoogleCallback.module.scss';
 
 export const GoogleCallback = () => {
@@ -10,8 +10,24 @@ export const GoogleCallback = () => {
   const { isPending, hasError, isProcessing, authParams } =
     useGoogleTokenHandler();
 
+  console.log('GoogleCallback component rendered:', {
+    isPending,
+    hasError,
+    isProcessing,
+    authParams: {
+      hasCode: !!authParams.code,
+      hasError: !!authParams.error,
+    },
+  });
+
   useEffect(() => {
     const hasOAuthParams = authParams.code || authParams.error;
+
+    console.log('GoogleCallback useEffect:', {
+      hasOAuthParams,
+      isPending,
+      isProcessing,
+    });
 
     if (!hasOAuthParams && !isPending && !isProcessing) {
       console.log(
@@ -44,12 +60,13 @@ export const GoogleCallback = () => {
           <Typography variant="bodyText" color="white">
             Unable to complete Google authentication. Please try again.
           </Typography>
-          <button
-            onClick={() => navigate(paths.loginPage, { replace: true })}
-            className={styles.retryButton}
+          <CustomButton
+            color="secondary"
+            onclick={() => navigate(paths.loginPage, { replace: true })}
+            classnames={styles.retryButton}
           >
             Back to Login
-          </button>
+          </CustomButton>
         </div>
       </div>
     );
