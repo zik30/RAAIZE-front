@@ -79,6 +79,7 @@ export const LoginForm = () => {
         </div>
         <div className={styles.formActions}>
           <CustomButton
+            type="submit"
             classnames={styles.submitButton}
             size="medium"
             color="secondary"

@@ -20,6 +20,10 @@ const $mainApi: AxiosInstance = createApi();
 const $authApi: AxiosInstance = createApi();
 
 $mainApi.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem(tokens.access);
+  if (accessToken && config.headers) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
   return config;
 });
 
@@ -47,15 +51,16 @@ $authApi.interceptors.response.use(
       }
 
       try {
-        const response = await axios.post<RefreshTokenResponse>(
-          `${BASE_URL}/api/v1/auth/refresh`,
-          {
-            refresh_token,
-          },
+        const response = await $authApi.post<RefreshTokenResponse>(
+          'auth/refresh',
+          { refresh_token },
         );
 
         localStorage.setItem(tokens.access, response.data.access_token);
         localStorage.setItem(tokens.refresh, response.data.refresh_token);
+
+        ogRequest.headers = ogRequest.headers || {};
+        ogRequest.headers.Authorization = `Bearer ${response.data.access_token}`;
 
         return $authApi.request(ogRequest);
       } catch (refreshError) {
@@ -67,5 +72,4 @@ $authApi.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
 export { $authApi, $mainApi };
