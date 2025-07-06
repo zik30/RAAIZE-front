@@ -1,0 +1,40 @@
+.inputWrapper {
+  background-color: $grey400;
+  width: 740px;
+  border-radius: 28px;
+  border: 1px solid $grey300;
+  margin: 24px auto 0;
+  padding: 13px;
+  max-height: 200px;
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+    color: $white;
+    resize: none;
+    white-space: pre-wrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 16px;
+
+    .rounded {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: $white;
+      opacity: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.fullWidth {
+  width: 100%;
+}

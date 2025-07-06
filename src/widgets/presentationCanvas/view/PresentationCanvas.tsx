@@ -1,53 +1,65 @@
 import { FC, useEffect, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import styles from './PresentationCanvas.module.scss';
-import type { Slide } from '../types/types';
-import { CustomButton } from '@src/shared/ui';
+
+type Slide = {
+  id: number;
+  elements: Array<{
+    id: string;
+    type: 'text';
+    x: number;
+    y: number;
+    content: string; 
+  }>;
+};
 
 export const PresentationCanvas: FC = () => {
-  const [slides, setSlides] = useState<Slide[]>([
-    {
-      id: 1,
-      elements: [
-        {
-          id: 't1',
-          type: 'text',
-          x: 50,
-          y: 50,
-          content: 'Заголовок презентации',
-        },
-      ],
-    },
-  ]);
-
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [selectedSlide, setSelectedSlide] = useState(0);
-  const [editingElementId, setEditingElementId] = useState<string | null>(null);
-  const [editingText, setEditingText] = useState<string>('');
+
+  
+  const parseHtmlToSlides = (htmlString: string): Slide[] => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    const slideDivs = doc.querySelectorAll('.slide');
+    const slides: Slide[] = [];
+
+    slideDivs.forEach((slideNode, index) => {
+      const elements = Array.from(slideNode.children).map((el, idx) => ({
+        id: `s${index + 1}-el${idx + 1}`,
+        type: 'text' as const,
+        x: 50 + idx * 20,
+        y: 50 + idx * 30,
+        content: el.outerHTML,
+      }));
+
+      slides.push({ id: index + 1, elements });
+    });
+
+    return slides;
+  };
 
   useEffect(() => {
-    const handler = (e: any) => {
-      if (e.detail && Array.isArray(e.detail.slides)) {
-        setSlides(e.detail.slides);
+    const handler = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (typeof customEvent.detail === 'string') {
+        const parsedSlides = parseHtmlToSlides(customEvent.detail);
+        setSlides(parsedSlides);
         setSelectedSlide(0);
       }
     };
+
     window.addEventListener('presentation-generated', handler);
     return () => window.removeEventListener('presentation-generated', handler);
   }, []);
 
   const addSlide = () => {
-    setSlides((prev) => [...prev, { id: Date.now(), elements: [] }]);
+    const newSlide = {
+      id: Date.now(),
+      elements: [],
+    };
+    setSlides((prev) => [...prev, newSlide]);
     setSelectedSlide(slides.length);
-  };
-
-  const handleSaveText = (elIdx: number) => {
-    setSlides((prev) => {
-      const newSlides = [...prev];
-      newSlides[selectedSlide].elements[elIdx].content = editingText;
-      return newSlides;
-    });
-    setEditingElementId(null);
-    setEditingText('');
   };
 
   return (
@@ -60,8 +72,8 @@ export const PresentationCanvas: FC = () => {
               default={{
                 x: el.x,
                 y: el.y,
-                width: 220,
-                height: 60,
+                width: 250,
+                height: 80,
               }}
               bounds="parent"
               onDragStop={(_, d) => {
@@ -84,38 +96,9 @@ export const PresentationCanvas: FC = () => {
             >
               <div
                 className={styles.slideElement}
-                style={{ width: '100%', height: '100%', padding: 6 }}
-                onDoubleClick={() => {
-                  setEditingElementId(el.id);
-                  setEditingText(el.content);
-                }}
-              >
-                {editingElementId === el.id ? (
-                  <textarea
-                    value={editingText}
-                    autoFocus
-                    onChange={(e) => setEditingText(e.target.value)}
-                    onBlur={() => handleSaveText(elIdx)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSaveText(elIdx);
-                      }
-                    }}
-                    className={styles.editInput}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      font: 'inherit',
-                      resize: 'none',
-                      border: '1px solid #ccc',
-                      borderRadius: '4px',
-                    }}
-                  />
-                ) : (
-                  el.content
-                )}
-              </div>
+                style={{ width: '100%', height: '100%' }}
+                dangerouslySetInnerHTML={{ __html: el.content }}
+              />
             </Rnd>
           ))}
         </div>
@@ -134,9 +117,9 @@ export const PresentationCanvas: FC = () => {
             Слайд {idx + 1}
           </div>
         ))}
-        <CustomButton classnames={styles.addSlideBtn} onclick={addSlide}>
+        <button className={styles.addSlideBtn} onClick={addSlide}>
           +
-        </CustomButton>
+        </button>
       </div>
     </div>
   );

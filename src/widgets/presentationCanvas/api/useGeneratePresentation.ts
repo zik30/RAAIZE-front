@@ -1,20 +1,12 @@
+
 import { $mainApi } from '@src/shared/lib/requester/requester';
-import { useMutation } from '@tanstack/react-query';
-
-export interface BackendSlide {
-  title: string;
-  content: string;
-}
-
-export interface BackendResponse {
-  slides: BackendSlide[];
-}
+import { useMutation } from "@tanstack/react-query";
 
 export const useGeneratePresentation = () => {
-  return useMutation<BackendResponse, Error, string>({
+  return useMutation<string, Error, string>({
     mutationFn: async (prompt: string) => {
-      const { data } = await $mainApi.post<BackendResponse>(
-        '/api/v1/generate/text',
+      const { data } = await $mainApi.post<string>(
+        'generate/',
         { text: prompt },
       );
       return data;
