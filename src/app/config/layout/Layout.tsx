@@ -4,28 +4,37 @@ import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@src/shared/hooks/useAuth';
 import { paths } from '@src/shared/constants/constants';
+import { useGoogleTokenHandler } from '@src/shared/hooks/useGoogleTokenHandler';
 
 export const Layout = () => {
   const { isAuth, user, fetchUserData } = useAuth();
   const location = useLocation();
 
+  useGoogleTokenHandler();
+
   useEffect(() => {
-    if (isAuth && !user) fetchUserData();
+    if (isAuth && !user) {
+      fetchUserData();
+    }
   }, [isAuth, user, fetchUserData]);
 
-  const hideLayout = [paths.loginPage, paths.registerPage].includes(
-    location.pathname,
-  );
+  const hideLayoutPages = [
+    paths.loginPage,
+    paths.registerPage,
+    paths.googleCallbackApi,
+  ];
+
+  const shouldHideLayout = hideLayoutPages.includes(location.pathname);
 
   return (
     <>
-      {!hideLayout && <Header />}
+      {!shouldHideLayout && <Header />}
       <main>
         <Suspense fallback={<div>Loading...</div>}>
           <Outlet />
         </Suspense>
       </main>
-      {!hideLayout && <Footer />}
+      {!shouldHideLayout && <Footer />}
     </>
   );
 };

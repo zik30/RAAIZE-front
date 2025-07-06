@@ -43,7 +43,7 @@ export default tseslint.config(
       'react/prop-types': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
-      'no-console': 'warn',
+      // 'no-console': 'warn',
       'no-debugger': 'warn',
     },
     settings: {
