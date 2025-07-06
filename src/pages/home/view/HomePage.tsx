@@ -5,9 +5,10 @@ import { Workspace } from '@src/widgets/workspaceBlock';
 export const HomePage = () => {
   return (
     <div>
-      <GradientBackground />
-      <HeroBlock />
-      <Workspace />
+      <GradientBackground height="big">
+        <HeroBlock />
+        <Workspace />
+      </GradientBackground>
     </div>
   );
 };

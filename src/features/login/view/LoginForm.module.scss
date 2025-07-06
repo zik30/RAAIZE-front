@@ -2,19 +2,64 @@
   max-width: 450px;
   margin: 0 auto;
   padding: 32px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.inputList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .formDescription {
-  margin-bottom: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 32px;
 }
 
 .formActions {
   margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #999;
+  margin: 10px 0;
+  font-size: 12px;
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid;
+    margin: 0 5px;
+    width: 100%;
+  }
+}
+
+.linker {
+  color: unset;
+  text-decoration: underline;
 }
 
 .submitButton {
   width: 100%;
+}
+
+.loginByGoogle {
+  width: 100%;
+
+  .customButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+  }
 }

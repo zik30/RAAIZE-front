@@ -10,3 +10,10 @@ export const paths = {
   communityPage: '/community',
   editPage: '/edit',
 };
+
+export const typeMessages = [
+  'Just type your topic — SayDeck does the rest.',
+  'SayDeck designs your presentation with AI.',
+  'No more templates — SayDeck creates unique decks.',
+  'SayDeck makes your slides look like magic.',
+];

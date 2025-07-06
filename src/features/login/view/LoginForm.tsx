@@ -1,9 +1,10 @@
 import { useSignInMutation } from '@src/entities/auth/api/signIn';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CustomButton, InputField, Typography } from '@src/shared/ui';
 import styles from './LoginForm.module.scss';
 import { useLoginForm } from '../model/useLogin';
 import { paths } from '@src/shared/constants/constants';
+import { IconGoogle } from '@src/shared/assets/icons/IconGoogle';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -19,7 +20,6 @@ export const LoginForm = () => {
   } = useLoginForm();
 
   const onSubmit = (data: { username: string; password: string }) => {
-    console.log('Login form data:', data);
     mutate({
       username: data.username,
       password: data.password,
@@ -30,35 +30,58 @@ export const LoginForm = () => {
     <div className={styles.form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formDescription}>
-          <Typography variant="h3">Login</Typography>
+          <Typography variant="h2" color="white">
+            Login
+          </Typography>
+          <div className={styles.loginByGoogle}>
+            <CustomButton
+              color="tertiary"
+              classnames={styles.customButton}
+              size="small"
+            >
+              <IconGoogle />
+              <Typography variant="smallText">Continue with Google</Typography>
+            </CustomButton>
+          </div>
         </div>
-        <InputField
-          control={control}
-          name="username"
-          type="text"
-          label="Username"
-          placeholder="Enter your username"
-          error={errors.username?.message}
-          className={styles.input}
-        />
-        <InputField
-          control={control}
-          name="password"
-          type="password"
-          label="Password"
-          placeholder="Enter your password"
-          error={errors.password?.message}
-          className={styles.input}
-        />
+        <div className={styles.line}>OR</div>
+        <div className={styles.inputList}>
+          <InputField
+            control={control}
+            name="username"
+            type="email"
+            label="Email"
+            placeholder="Enter your email"
+            error={errors.username?.message}
+            className={styles.input}
+          />
+          <InputField
+            control={control}
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Enter your password"
+            error={errors.password?.message}
+            className={styles.input}
+          />
+        </div>
         <div className={styles.formActions}>
           <CustomButton
             classnames={styles.submitButton}
             size="medium"
-            color="primary"
+            color="secondary"
             disabled={isPending}
           >
             {isPending ? 'Loading...' : 'Login'}
           </CustomButton>
+          <div className={styles.signUpText}>
+            <Typography variant="smallText" color="white">
+              Don&apos;t have an account?{' '}
+              <Link to={paths.registerPage} className={styles.linker}>
+                Create your account
+              </Link>
+            </Typography>
+          </div>
         </div>
       </form>
     </div>

@@ -1,6 +1,6 @@
 .button {
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.2s ease;
@@ -35,16 +35,16 @@
   color: $white;
 
   &:hover {
-    color: #d0d0d0;
+    background-color: #5a6268;
   }
 }
 
 .small {
-  padding: 5px 10px;
+  padding: 6px 10px;
 }
 
 .medium {
-  padding: 8px 16px;
+  padding: 7px 16px;
 }
 
 .large {
