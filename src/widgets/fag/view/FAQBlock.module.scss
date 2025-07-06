@@ -1,0 +1,84 @@
+.FAQBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: 70px 0px;
+}
+
+.collapsibleBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.itemWrapper {
+  width: 100%;
+  max-width: 900px;
+  border: 1px solid $grey300;
+  border-radius: 12px;
+  overflow: hidden;
+  background: $grey400;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $grey200;
+  }
+}
+
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+
+  &:hover {
+    background: $grey300;
+  }
+
+  &.active {
+    background: $grey300;
+    border-bottom: 1px solid $grey300;
+  }
+}
+
+.icon {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+  background: $grey400;
+
+  &.open {
+    max-height: 500px;
+    transition: max-height 0.4s ease-in, padding 0.4s ease-in;
+  }
+}
+
+.answerContent {
+  padding: 24px 32px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+
+  .answer.open & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

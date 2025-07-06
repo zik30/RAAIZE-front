@@ -29,3 +29,9 @@ export const GoogleAuthPage = lazy(() =>
     default: module.GoogleAuthPage,
   })),
 );
+
+export const PricingPage = lazy(() =>
+  import('./pricing/view/PricingPage').then((module) => ({
+    default: module.PricingPage,
+  })),
+);
