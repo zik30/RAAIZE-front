@@ -5,3 +5,4 @@ export { Typography } from './typography/view/Typography';
 export { Dropdown } from './dropdown/view/Dropdown';
 export { InputField } from './inputField/view/InputField';
 export { InputAI } from './inputAI/view/InputAI';
+export { Loader } from './loader/view/Loader';

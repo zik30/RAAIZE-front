@@ -61,7 +61,7 @@ export const pricingPlans: PricingPlan[] = [
       'No team collaboration',
       'Watermark present',
     ],
-    buttonText: '',
+    buttonText: 'Get started',
     isPopular: false,
   },
   {
