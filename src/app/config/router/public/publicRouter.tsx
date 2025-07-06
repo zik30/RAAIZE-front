@@ -1,4 +1,4 @@
-import { HomePage } from '@src/pages';
+import { HomePage, PricingPage } from '@src/pages';
 import { paths } from '@src/shared/constants/constants';
 
 export const publicRouter = [
@@ -7,7 +7,7 @@ export const publicRouter = [
     element: <HomePage />,
   },
   {
-    path: paths.editPage,
-    element: <div>edit</div>,
+    path: paths.pricing,
+    element: <PricingPage />,
   },
 ];

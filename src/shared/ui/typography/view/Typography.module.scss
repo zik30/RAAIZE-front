@@ -34,6 +34,12 @@
   font-weight: 400;
 }
 
+.extraSmall {
+  font-size: 11px;
+  line-height: 140%;
+  font-weight: 400;
+}
+
 // weights
 .regular {
   font-weight: 400;
@@ -54,6 +60,13 @@
 }
 .white {
   color: $white;
+}
+.grey {
+  color: $grey100;
+}
+
+.lightBlue {
+  color: rgb(196, 196, 255);
 }
 
 .error {
