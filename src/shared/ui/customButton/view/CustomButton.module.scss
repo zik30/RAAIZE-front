@@ -1,6 +1,6 @@
 .button {
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.2s ease;
@@ -21,20 +21,28 @@
 }
 
 .secondary {
-  background-color: #6c757d;
-  color: white;
+  background-color: $grey000;
+  color: $black;
 
   &:hover {
-    background-color: #5a6268;
+    background-color: $grey100;
+  }
+}
+
+.tertiary {
+  background-color: $grey400;
+  color: $white;
+  &:hover {
+    background-color: $grey300;
   }
 }
 
 .small {
-  padding: 5px 10px;
+  padding: 6px 10px;
 }
 
 .medium {
-  padding: 8px 16px;
+  padding: 7px 16px;
 }
 
 .large {

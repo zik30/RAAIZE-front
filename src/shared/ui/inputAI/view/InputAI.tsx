@@ -11,6 +11,8 @@ export const InputAI: FC<IInputAI> = ({
   inputDisabled = false,
   fullWidth = false,
   onSubmit,
+  onMic,
+  children
 }) => {
   return (
     <div className={classNames(styles.inputWrapper, fullWidth && styles.fullWidth)}>
@@ -27,7 +29,9 @@ export const InputAI: FC<IInputAI> = ({
           type="button"
           disabled={buttonDisabled}
           aria-label="Record audio"
+          onClick={onMic}
         >
+          {children}
           <AudioLines width={20} />
         </button>
         <button

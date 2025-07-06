@@ -1,12 +1,10 @@
-import { type InputHTMLAttributes, type ReactNode } from 'react';
-
 export type InputProps = {
   variant?: 'primary' | 'secondary';
   size?: 'small' | 'medium' | 'long';
   fullWidth: boolean;
   error?: boolean;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   rounded?: boolean;
-  type: 'text' | 'checkbox' | 'range';
+  type: 'text' | 'checkbox' | 'range' | 'password' | 'email';
   className?: string;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & React.InputHTMLAttributes<HTMLInputElement>;

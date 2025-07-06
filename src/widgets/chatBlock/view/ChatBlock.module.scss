@@ -1,4 +1,4 @@
-// Основной контейнер чата
+
 
 .block {
   display: flex;
@@ -33,9 +33,10 @@
   background: transparent;
 }
 .messages {
-  height: 85vh;
+  height: 62vh;
 }
 .message {
+  margin-top: 10px;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
