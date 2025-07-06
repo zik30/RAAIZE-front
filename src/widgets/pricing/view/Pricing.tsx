@@ -71,8 +71,8 @@ export const Pricing = () => {
             Pricing
           </Typography>
           <Typography variant="bodyText" color="grey">
-            Start for free. Upgrade to get the capacity that exactly matches
-            your team&apos;s needs.
+            Begin with a free plan. Upgrade to meet your team&apos;s evolving
+            needs.
           </Typography>
         </div>
         <div className={styles.cardsList}>

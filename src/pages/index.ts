@@ -35,3 +35,9 @@ export const PricingPage = lazy(() =>
     default: module.PricingPage,
   })),
 );
+
+export const FaqPage = lazy(() =>
+  import('./faq/view/FaqPage').then((module) => ({
+    default: module.FaqPage,
+  })),
+);
