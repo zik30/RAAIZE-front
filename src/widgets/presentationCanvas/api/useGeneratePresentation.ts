@@ -1,6 +1,5 @@
-
 import { $mainApi } from '@src/shared/lib/requester/requester';
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
 export const useGeneratePresentation = () => {
   return useMutation<string, Error, string>({
@@ -8,6 +7,11 @@ export const useGeneratePresentation = () => {
       const { data } = await $mainApi.post<string>(
         'generate/',
         { text: prompt },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
       return data;
     },

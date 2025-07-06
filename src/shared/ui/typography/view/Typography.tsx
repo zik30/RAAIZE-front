@@ -23,6 +23,7 @@ export const Typography: FC<ITTypography> = (props) => {
     h4: 'h4',
     bodyText: 'p',
     smallText: 'p',
+    extraSmall: 'p',
   };
 
   const classNamedGenerated = classNames(

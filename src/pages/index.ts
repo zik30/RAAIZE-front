@@ -23,3 +23,15 @@ export const WorkplacePage = lazy(() =>
     default: module.WorkplacePage,
   })),
 );
+
+export const GoogleAuthPage = lazy(() =>
+  import('./googleAuth/view/GoogleAuthPage').then((module) => ({
+    default: module.GoogleAuthPage,
+  })),
+);
+
+export const PricingPage = lazy(() =>
+  import('./pricing/view/PricingPage').then((module) => ({
+    default: module.PricingPage,
+  })),
+);

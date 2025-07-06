@@ -10,6 +10,7 @@ export const CustomButton: FC<CustomButtonProps> = ({
   classnames,
   onclick,
   disabled = false,
+  type = 'button',
 }) => {
   const buttonClass = classNames(
     classnames,
@@ -19,7 +20,12 @@ export const CustomButton: FC<CustomButtonProps> = ({
   );
 
   return (
-    <button className={buttonClass} onClick={onclick} disabled={disabled}>
+    <button
+      type={type}
+      className={buttonClass}
+      onClick={onclick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

@@ -1,11 +1,11 @@
 header {
-  position: fixed;
-  z-index: 1000; /* Ensure the header is above other content */
+  position: sticky;
+  z-index: 1000;
   top: 0;
   left: 0;
   width: 100%;
-  background: #1c1c1cd8; /* semi-transparent background */
-  backdrop-filter: blur(40px); /* blur the background behind */
+  background: #1c1c1cd8;
+  backdrop-filter: blur(40px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 
   .wrapper {
