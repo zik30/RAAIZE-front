@@ -2,6 +2,7 @@ import styles from './Dropdown.module.scss';
 import { useState, type FC } from 'react';
 import classNames from 'classnames';
 import type { DropdownProps } from '../types/types';
+import { Typography } from '../../typography/view/Typography';
 
 export const Dropdown: FC<DropdownProps> = ({
   options,
@@ -18,7 +19,9 @@ export const Dropdown: FC<DropdownProps> = ({
         className={styles.toggle}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        {selected?.label || placeholder}
+        <Typography color="white" variant="smallText">
+          {selected?.label || placeholder}
+        </Typography>
         <span className={styles.arrow} />
       </button>
       {isOpen && (
@@ -34,7 +37,9 @@ export const Dropdown: FC<DropdownProps> = ({
                 setIsOpen(false);
               }}
             >
-              {opt.label}
+              <Typography color="grey" variant="smallText">
+                {opt.label}
+              </Typography>
             </li>
           ))}
         </ul>

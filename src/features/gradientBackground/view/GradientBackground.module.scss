@@ -4,13 +4,23 @@
   min-height: 100vh;
   width: 100%;
 
+  &.small {
+    &::before {
+      height: 100vh;
+      top: 0vh;
+    }
+  }
+  &.big {
+    &::before {
+      height: 250vh;
+      top: 35vh;
+    }
+  }
   &::before {
     content: '';
     position: absolute;
-    top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
     z-index: -1;
 
     background: radial-gradient(

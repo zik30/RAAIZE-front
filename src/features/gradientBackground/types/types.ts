@@ -4,4 +4,5 @@ export interface GradientBackgroundProps {
   children?: ReactNode;
   className?: string;
   intensity?: 'light' | 'medium' | 'strong';
+  height?: 'small' | 'big';
 }

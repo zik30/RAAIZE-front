@@ -1,0 +1,81 @@
+.wrapper {
+  background-color: $black;
+  padding: 32px;
+  border-radius: 20px;
+  margin-top: 50px;
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .presentations {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+
+    .presentation {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+
+      .image {
+        max-width: 340px;
+        position: relative;
+
+        img {
+          width: 100%;
+          object-fit: contain;
+        }
+
+        .buttons {
+          width: 100%;
+          position: absolute;
+          bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 0 15px;
+
+          .button {
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .icon {
+      cursor: pointer;
+      transition: 0.3s;
+      &:hover {
+        scale: 1.2;
+      }
+    }
+  }
+
+  .button {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.page {
+  margin-top: 100px;
+}

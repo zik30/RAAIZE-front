@@ -5,8 +5,14 @@ export const GradientBackground = ({
   children,
   className = '',
   intensity = 'medium',
+  height = 'small',
 }: GradientBackgroundProps) => {
-  const classes = [styles.container, styles[intensity], className]
+  const classes = [
+    styles.container,
+    styles[intensity],
+    styles[height],
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
