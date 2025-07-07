@@ -1,9 +1,10 @@
+import { WorkspaceBlock } from '@src/widgets/workspaceBlock';
 import { FC } from 'react';
 
 export const WorkspacePage: FC = () => {
   return (
     <>
-      <div>workspace</div>
+      <WorkspaceBlock viewButton={false} />
     </>
   );
 };

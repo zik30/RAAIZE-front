@@ -3,16 +3,12 @@ import { FC, useState } from 'react';
 import styles from './CommunityBlock.module.scss';
 import { ICommunityProps } from '../types/types';
 import { Link } from 'react-router-dom';
-import image from '@src/shared/assets/images/templateImg.png';
 import classNames from 'classnames';
-import { motion } from 'framer-motion';
 import { TemplateModal } from '@src/features/templateModal';
+import { useTemplatesQuery } from '../api/useTemplatesQuery';
+import { PreviewCard } from '@src/features/previewCard/view/PreviewCard';
 
 const typeOptions = [
-  {
-    label: 'Popular',
-    value: 'popular',
-  },
   {
     label: 'Latest',
     value: 'latest',
@@ -25,11 +21,19 @@ const typeOptions = [
 
 const categories = [
   {
+    label: 'All',
+    value: 'all',
+  },
+  {
+    label: 'Built in',
+    value: 'builtin',
+  },
+  {
     label: 'Education',
     value: 'education',
   },
   {
-    label: 'Bissiness',
+    label: 'Bussiness',
     value: 'bussiness',
   },
   {
@@ -42,153 +46,34 @@ const categories = [
   },
 ];
 
-const dataTest = [
-  {
-    id: 1,
-    title: 'pulse-robot-template',
-    subtitle: '10682 Remixes',
-    category: 'technology',
-    url: image,
-  },
-  {
-    id: 2,
-    title: 'eco-learning-kit',
-    subtitle: '8423 Remixes',
-    category: 'education',
-    url: image,
-  },
-  {
-    id: 3,
-    title: 'startup-dashboard',
-    subtitle: '5671 Remixes',
-    category: 'bussiness',
-    url: image,
-  },
-  {
-    id: 4,
-    title: 'green-energy-template',
-    subtitle: '3222 Remixes',
-    category: 'ecology',
-    url: image,
-  },
-  {
-    id: 5,
-    title: 'ai-lab-toolkit',
-    subtitle: '9204 Remixes',
-    category: 'technology',
-    url: image,
-  },
-  {
-    id: 6,
-    title: 'business-growth-plan',
-    subtitle: '11230 Remixes',
-    category: 'bussiness',
-    url: image,
-  },
-  {
-    id: 7,
-    title: 'climate-change-board',
-    subtitle: '6430 Remixes',
-    category: 'ecology',
-    url: image,
-  },
-  {
-    id: 8,
-    title: 'virtual-classroom',
-    subtitle: '7850 Remixes',
-    category: 'education',
-    url: image,
-  },
-  {
-    id: 9,
-    title: 'tech-startup-guide',
-    subtitle: '4981 Remixes',
-    category: 'technology',
-    url: image,
-  },
-  {
-    id: 10,
-    title: 'financial-modeler',
-    subtitle: '7023 Remixes',
-    category: 'bussiness',
-    url: image,
-  },
-  {
-    id: 11,
-    title: 'recycle-tracker',
-    subtitle: '3591 Remixes',
-    category: 'ecology',
-    url: image,
-  },
-  {
-    id: 12,
-    title: 'learning-analytics',
-    subtitle: '8501 Remixes',
-    category: 'education',
-    url: image,
-  },
-  {
-    id: 13,
-    title: 'iot-controller',
-    subtitle: '6642 Remixes',
-    category: 'technology',
-    url: image,
-  },
-  {
-    id: 14,
-    title: 'market-analysis-pro',
-    subtitle: '7809 Remixes',
-    category: 'bussiness',
-    url: image,
-  },
-  {
-    id: 15,
-    title: 'clean-water-tracker',
-    subtitle: '4587 Remixes',
-    category: 'ecology',
-    url: image,
-  },
-  {
-    id: 16,
-    title: 'edu-content-builder',
-    subtitle: '5890 Remixes',
-    category: 'education',
-    url: image,
-  },
-  {
-    id: 17,
-    title: 'robotics-starter-kit',
-    subtitle: '9102 Remixes',
-    category: 'technology',
-    url: image,
-  },
-  {
-    id: 18,
-    title: 'startup-pitch-deck',
-    subtitle: '7764 Remixes',
-    category: 'bussiness',
-    url: image,
-  },
-  {
-    id: 19,
-    title: 'greenhouse-monitor',
-    subtitle: '3379 Remixes',
-    category: 'ecology',
-    url: image,
-  },
-  {
-    id: 20,
-    title: 'edu-curriculum-planner',
-    subtitle: '8023 Remixes',
-    category: 'education',
-    url: image,
-  },
-];
-
 export const CommunityBlock: FC<ICommunityProps> = ({ viewButton = true }) => {
-  const [selectedType, setSelectedType] = useState('Popular');
-  const [isOpen, setIsOpen] = useState<null | number>(null);
-  const selectedTemplate = dataTest.find((template) => template.id === isOpen);
+  const [selectedType, setSelectedType] = useState('latest');
+  const [isOpen, setIsOpen] = useState<null | string>(null);
+  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const { data } = useTemplatesQuery();
+
+  const selectedTemplate = data?.find((t) => t.templateId === isOpen);
+
+  const sortedData = [...(data ?? [])].sort((a, b) => {
+    if (selectedType === 'latest') {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+    if (selectedType === 'oldest') {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    }
+    return 0;
+  });
+
+  const formatDate = (rawDate: string) => {
+    const date = new Date(rawDate);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-based
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
 
   return (
     <section>
@@ -214,67 +99,35 @@ export const CommunityBlock: FC<ICommunityProps> = ({ viewButton = true }) => {
               </Link>
             ))}
           </div>
-          {viewButton && <CustomButton color="tertiary">View all</CustomButton>}
+          {viewButton && (
+            <Link to={'/community'}>
+              <CustomButton color="tertiary">View all</CustomButton>
+            </Link>
+          )}
         </div>
         <div className={styles.templates}>
-          {dataTest.slice(0, 16).map((template) => (
-            <motion.div
-              whileHover={'hover'}
-              initial="rest"
-              animate="rest"
-              className={styles.template}
-              key={template.id}
-            >
-              <div className={styles.templateImg}>
-                <motion.img
-                  src={template.url}
-                  alt=""
-                  variants={{
-                    rest: { filter: 'brightness(1.0)' },
-                    hover: { filter: 'brightness(0.6)' },
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-                <motion.div
-                  className={styles.buttons}
-                  variants={{
-                    rest: { opacity: 0, scale: 0.8, pointerEvents: 'none' },
-                    hover: { opacity: 1, scale: 1, pointerEvents: 'auto' },
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <CustomButton classnames={styles.button} color="primary">
-                    Remix
-                  </CustomButton>
-                  <CustomButton
-                    onclick={() => setIsOpen(template.id)}
-                    classnames={styles.button}
-                    color="secondary"
-                  >
-                    Preview
-                  </CustomButton>
-                </motion.div>
-              </div>
-              <div className={styles.text}>
-                <Typography color="white" align="center" variant="bodyText">
-                  {template.title}
-                </Typography>
-                <Typography color="white" align="center" variant="smallText">
-                  {template.subtitle}
-                </Typography>
-              </div>
-            </motion.div>
+          {sortedData?.map((template) => (
+            <PreviewCard
+              title={template.title}
+              key={template.templateId}
+              date={formatDate(template.createdAt)}
+              id={template.templateId}
+              setIsOpen={(id) => setIsOpen(id)}
+            />
           ))}
         </div>
         {viewButton && (
-          <div className={styles.button}>
-            <CustomButton color="primary">Show more</CustomButton>
-          </div>
+          <Link to={'/community'}>
+            <div className={styles.button}>
+              <CustomButton color="primary">Show more</CustomButton>
+            </div>
+          </Link>
         )}
         {selectedTemplate && (
           <TemplateModal
             name={selectedTemplate.title}
-            presentation={selectedTemplate.subtitle}
+            id={selectedTemplate.templateId}
+            date={formatDate(selectedTemplate.createdAt)}
             setIsOpen={setIsOpen}
           />
         )}

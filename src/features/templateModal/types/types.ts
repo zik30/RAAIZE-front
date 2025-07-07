@@ -1,5 +1,12 @@
 export interface ITemplateModalProps {
   name: string;
-  presentation: string;
-  setIsOpen: (id: number | null) => void;
+  date: string;
+  id: string;
+  setIsOpen: (id: string | null) => void;
+}
+
+export interface IHtml {
+  templateId: string;
+  html: string;
+  title: string;
 }

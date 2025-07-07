@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Modal.module.scss';
 import { motion } from 'framer-motion';
@@ -14,6 +14,15 @@ export const Modal: FC<IModal> = ({ onClose, children }) => {
       onClose();
     }
   };
+
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
 
   return createPortal(
     <div className={styles.wrapper} onClick={handleClickOutside}>

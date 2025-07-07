@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { ITemplate } from '../types/types';
+import { ITemplates } from '../types/types';
 import axios from 'axios';
 import { BASE_URL } from '@src/shared/constants/constants';
 
 export const useTemplatesQuery = () => {
-  return useQuery<ITemplate[]>({
+  return useQuery<ITemplates[]>({
     queryKey: ['templates'],
     queryFn: async () => {
       const { data } = await axios.get(
@@ -16,11 +16,23 @@ export const useTemplatesQuery = () => {
 };
 
 export const usePopularTemplatesQuery = () => {
-  return useQuery<ITemplate[]>({
+  return useQuery<ITemplates[]>({
     queryKey: ['templates'],
     queryFn: async () => {
       const { data } = await axios.get(
         `${BASE_URL}templates/popular/?_=${Date.now()}`,
+      );
+      return data;
+    },
+  });
+};
+
+export const useTemplateQuery = (templateId: string) => {
+  return useQuery<string>({
+    queryKey: ['template', templateId],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${BASE_URL}/templates/${templateId}?_=${Date.now()}`,
       );
       return data;
     },
