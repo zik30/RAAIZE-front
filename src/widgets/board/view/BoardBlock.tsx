@@ -1,20 +1,15 @@
 import { FC, useState } from 'react';
-import styles from './WorkspaceBlock.module.scss';
-import {
-  Container,
-  CustomButton,
-  CustomInput,
-  Dropdown,
-  Typography,
-} from '@src/shared/ui';
-import { IWorkspaceProps, Presentation } from '../types/types';
+import styles from './BoardBlock.module.scss';
+import { Container, CustomInput, Dropdown, Typography } from '@src/shared/ui';
 import { useAuth } from '@src/shared/hooks/useAuth';
 import { Card } from './card/view/Card';
 import {
+  useBoardInfoQuery,
+  useBoardQuery,
   usePostPresentationMutation,
-  usePresentationsQuery,
-} from '../api/usePresentationsQuery';
+} from '../api/useBoardQuery';
 import { PresentationModal } from '@src/features/presentationModal';
+import { useParams } from 'react-router-dom';
 
 const typeOptions = [
   {
@@ -27,30 +22,29 @@ const typeOptions = [
   },
 ];
 
-export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
+export const BoardBlock: FC = () => {
   const { username } = useAuth();
 
   const [selectedType, setSelectedType] = useState('latest');
   const [search, setSearch] = useState('');
   const [preview, setPreview] = useState<number | null>(null);
 
-  // const { mutate: createPresentation } = useCreatePresentationMutation();
-  // const handleCreate = (title: string, board_id: number, html: string) => {
-  //   createPresentation({ title, html, board_id });
-  // };
-
   const { mutate: postPresentation } = usePostPresentationMutation();
   const handlePost = (id: number) => {
     postPresentation(id);
   };
 
-  const { data: presentations = [] }: { data?: Presentation[] } =
-    usePresentationsQuery();
-  console.log(presentations);
-  const selectedPreview = presentations?.find((p) => p.id === preview);
+  const { id } = useParams<{ id: string }>();
+  const { data } = useBoardQuery(id || '');
+  const { data: boardInfo } = useBoardInfoQuery(id || '');
+  console.log(boardInfo);
 
-  const filteredPresentations = presentations
-    .filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
+  console.log(data);
+
+  const selectedPreview = data?.find((p) => p.id === preview);
+
+  const filteredPresentations = data
+    ?.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
     .slice(0, 16);
 
   const formatDate = (rawDate: string) => {
@@ -67,7 +61,11 @@ export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
     <section>
       <Container className={styles.wrapper}>
         <Typography variant="h3" color="white">
-          {username}&apos;s SayDeck&apos;s workspace
+          {username}&apos;s {boardInfo?.name} board
+        </Typography>
+        <br />
+        <Typography variant="bodyText" color="white">
+          {boardInfo?.description}
         </Typography>
         <div className={styles.nav}>
           <div className={styles.left}>
@@ -85,7 +83,6 @@ export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
               placeholder={selectedType}
             ></Dropdown>
           </div>
-          {viewButton && <CustomButton color="tertiary">View All</CustomButton>}
         </div>
         <div className={styles.presentations}>
           {filteredPresentations?.map((presentation) => (
@@ -100,11 +97,6 @@ export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
             />
           ))}
         </div>
-        {viewButton && (
-          <div className={styles.button}>
-            <CustomButton color="primary">Show more</CustomButton>
-          </div>
-        )}
         {preview && (
           <PresentationModal
             name={selectedPreview!.title}
