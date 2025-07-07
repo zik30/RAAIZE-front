@@ -1,5 +1,5 @@
 import { AuthGuard } from '@src/app/config/guards/AuthGuard';
-import { WorkspacePage } from '@src/pages';
+import { BoardPage, WorkspacePage } from '@src/pages';
 import { paths } from '@src/shared/constants/constants';
 
 export const privateRouter = [
@@ -8,6 +8,14 @@ export const privateRouter = [
     element: (
       <AuthGuard>
         <WorkspacePage />,
+      </AuthGuard>
+    ),
+  },
+  {
+    path: '/boards/:id', // dynamic route
+    element: (
+      <AuthGuard>
+        <BoardPage />
       </AuthGuard>
     ),
   },

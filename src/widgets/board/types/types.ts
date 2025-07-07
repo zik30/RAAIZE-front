@@ -1,13 +1,3 @@
-export interface IWorkspaceProps {
-  viewButton: boolean;
-}
-
-export interface postPresentations {
-  title: string;
-  html: string;
-  board_id: string;
-}
-
 export interface Presentation {
   id: number;
   title: string;

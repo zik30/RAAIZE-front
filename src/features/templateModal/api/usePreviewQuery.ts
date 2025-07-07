@@ -1,15 +1,12 @@
-import { BASE_URL } from '@src/shared/constants/constants';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { IHtml } from '../types/types';
+import { $mainApi } from '@src/shared/lib/requester/requester';
 
-export const usePreviewQuery = (id: string) => {
+export const usePreviewQuery = (id: string | null) => {
   return useQuery<IHtml>({
     queryKey: ['template', id],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${BASE_URL}/api/v1/templates/${id}?_=${Date.now()}`,
-      );
+      const { data } = await $mainApi.get(`/api/v1/templates/${id}`);
       return data;
     },
   });

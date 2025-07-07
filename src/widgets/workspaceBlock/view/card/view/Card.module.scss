@@ -1,0 +1,36 @@
+.template {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  .iframeWrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    // background: linear-gradient(120deg,#61fbbd 0%, #282c34 100%);
+    .html {
+      border: none;
+      pointer-events: none;
+      transform: scale(1.1);
+      transform-origin: top left;
+    }
+
+    .buttons {
+      width: 100%;
+      position: absolute;
+      bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 15px;
+
+      .button {
+        width: 50%;
+      }
+    }
+  }
+}

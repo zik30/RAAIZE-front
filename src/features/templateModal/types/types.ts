@@ -1,8 +1,8 @@
 export interface ITemplateModalProps {
-  name: string;
-  date: string;
-  id: string;
-  setIsOpen: (id: string | null) => void;
+  name: string | null;
+  date: string | null;
+  id: string | null;
+  setIsOpen: (id: string | null) => void | null;
 }
 
 export interface IHtml {

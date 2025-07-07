@@ -1,10 +1,10 @@
-import { WorkspaceBlock } from '@src/widgets/workspaceBlock';
+import { BoardsBlock } from '@src/widgets/boardsBlock';
 import { FC } from 'react';
 
 export const WorkspacePage: FC = () => {
   return (
     <>
-      <WorkspaceBlock viewButton={false} />
+      <BoardsBlock />
     </>
   );
 };

@@ -14,6 +14,7 @@ export const paths = {
   faq: '/faq',
   editPage: '/edit',
   googleCallbackApi: '/api/v1/auth/google-callback',
+  boardPage: (id: number | string) => `/boards/${id}`,
 };
 
 export const navigation = [

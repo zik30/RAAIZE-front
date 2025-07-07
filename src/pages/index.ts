@@ -47,3 +47,9 @@ export const CommunityPage = lazy(() =>
     default: module.CommunityPage,
   })),
 );
+
+export const BoardPage = lazy(() =>
+  import('./board/view/BoardPage').then((module) => ({
+    default: module.BoardPage,
+  })),
+);
