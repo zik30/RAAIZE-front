@@ -8,12 +8,10 @@ export const HomePage = () => {
   const { isAuth, username } = useAuth();
 
   return (
-    <div>
-      <GradientBackground height="big">
-        <HeroBlock />
-        {isAuth && username && <WorkspaceBlock viewButton={true} />}
-        <CommunityBlock viewButton={true} />
-      </GradientBackground>
-    </div>
+    <GradientBackground height="big">
+      <HeroBlock />
+      {isAuth && username && <WorkspaceBlock viewButton={true} />}
+      <CommunityBlock viewButton={true} />
+    </GradientBackground>
   );
 };
