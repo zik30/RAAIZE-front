@@ -38,11 +38,11 @@ export const PreviewCard: FC<IPreviewCardProps> = ({
       });
 
       const parsedPresentation = typeof generated === 'string' ? JSON.parse(generated) : generated;
-      setIsOpen(null); 
+      setIsOpen(''); 
       navigate('/edit');
       setPresentation(parsedPresentation);
 
-      setIsOpen(null);
+      setIsOpen('');
     } catch (error) {
       console.error('Ошибка генерации презентации:', error);
       alert('Ошибка при генерации презентации');

@@ -41,7 +41,7 @@ export const InputAI: FC<IInputAI> = ({
           disabled={buttonDisabled}
           aria-label="Record audio"
           onClick={() => {
-            handleButtonClick('mic', onMic)
+            handleButtonClick('mic', onMic ?? (() => {}));
             }}
         >
           {children}
@@ -55,7 +55,8 @@ export const InputAI: FC<IInputAI> = ({
           disabled={buttonDisabled}
           aria-label="Send message"
           onClick={() => {
-            handleButtonClick('send', onSubmit)
+            handleButtonClick('send', onSubmit ?? (() => {}));
+
           }}
         >
           <CornerRightUp width={20} />

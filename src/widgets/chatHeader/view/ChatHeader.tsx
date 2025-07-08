@@ -15,7 +15,7 @@ export const ChatHeader = () => {
   const { presentation } = usePresentationStore();
 
   const [showModal, setShowModal] = useState(false);
-  const { mutate, isLoading } = useSavePresentationMutation();
+  const { mutate, isPending} = useSavePresentationMutation();
 
   useEffect(() => {
     if (isAuth && !username) {
@@ -104,9 +104,9 @@ export const ChatHeader = () => {
                       <button
                         className={styles.save}
                         onClick={handleSave}
-                        disabled={isLoading}
+                        disabled={isPending}
                       >
-                        {isLoading ? 'Сохраняем...' : 'Save'}
+                        {isPending ? 'Сохраняем...' : 'Save'}
                       </button>
                     </>
                   ) : (
