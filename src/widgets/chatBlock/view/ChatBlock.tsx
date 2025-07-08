@@ -1,4 +1,5 @@
 import React, { useState, FormEvent, ChangeEvent, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'; // 👈 добавлено
 import styles from './ChatBlock.module.scss';
 import { InputAI } from '@src/shared/ui';
 import { useGeneratePresentation, useUpdatePresentation } from '@src/widgets/presentationCanvas/api/useGeneratePresentation';
@@ -12,8 +13,13 @@ import { Loader } from 'lucide-react';
 type Message = { role: 'user' | 'ai'; text: string };
 
 export const ChatBlock: React.FC = () => {
+  const location = useLocation();
+  const topicFromState = location.state?.topic || ''; // 👈 из HeroBlock
+
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(topicFromState);
+  const [hasAutoSent, setHasAutoSent] = useState(false); // 👈 защита от повтора
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { mutateAsync: generatePresentation } = useGeneratePresentation();
@@ -29,6 +35,13 @@ export const ChatBlock: React.FC = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  useEffect(() => {
+    if (topicFromState && !hasAutoSent) {
+      handleSend(); 
+      setHasAutoSent(true);
+    }
+  }, [topicFromState, hasAutoSent]);
 
   const handleSend = async (e?: FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
@@ -71,7 +84,7 @@ export const ChatBlock: React.FC = () => {
         slides_count: 5,
         audience: 'general',
         style: 'professional',
-        language: 'ru',
+        language: 'en',
         include_images: true,
         image_style: 'professional',
         auto_enhance: true,

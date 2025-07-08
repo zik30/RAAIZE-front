@@ -45,7 +45,7 @@ export const LoginForm = () => {
           </Typography>
           <div className={styles.loginByGoogle}>
             <CustomButton
-              color="tertiary"
+              color="secondary"
               classnames={styles.customButton}
               size="small"
               onclick={initiateGoogleAuth}
@@ -82,7 +82,7 @@ export const LoginForm = () => {
             type="submit"
             classnames={styles.submitButton}
             size="medium"
-            color="secondary"
+            color="primary"
             disabled={isPending}
           >
             {isPending ? 'Loading...' : 'Login'}

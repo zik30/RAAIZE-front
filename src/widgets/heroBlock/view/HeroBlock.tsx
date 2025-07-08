@@ -7,6 +7,11 @@ export const HeroBlock: FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const nav = useNavigate();
 
+  const handleSubmit = () => {
+    nav('/edit', {
+      state: { topic: inputValue }, 
+    });
+  };
 
   return (
     <section className={styles.wrapper}>
@@ -22,7 +27,7 @@ export const HeroBlock: FC = () => {
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
           buttonDisabled={inputValue.length == 0}
-          onSubmit={() => nav('/edit')}
+          onSubmit={handleSubmit}
         />
       </Container>
     </section>

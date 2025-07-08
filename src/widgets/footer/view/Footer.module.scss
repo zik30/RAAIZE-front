@@ -1,0 +1,156 @@
+.footer {
+  background: $grey400;
+  border-top: 1px solid $grey300;
+  padding: 60px 0 20px;
+
+  .wrapper {
+    position: relative;
+  }
+
+  .footerTop {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 40px;
+  }
+
+  .logoSection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .logoLink {
+      display: inline-block;
+    }
+
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+
+    .description {
+      max-width: 250px;
+      line-height: 1.6;
+    }
+  }
+
+  .navigation {
+    .navTitle {
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .navList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      li {
+        position: relative;
+      }
+
+      .navLink {
+        display: inline-block;
+        text-decoration: none;
+        padding: 8px 0;
+        transition: color 0.2s ease;
+
+        &:hover {
+          span {
+            color: #666666;
+          }
+        }
+      }
+    }
+  }
+
+  .socialSection {
+    .socialTitle {
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .socialLinks {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .socialLink {
+      border-radius: 8px;
+    }
+  }
+
+  .footerBottom {
+    .divider {
+      height: 1px;
+      background: #e5e5e5;
+      margin-bottom: 30px;
+    }
+
+    .bottomContent {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .bottomLinks {
+      display: flex;
+      gap: 30px;
+    }
+
+    .bottomLink {
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        span {
+          color: #666666;
+        }
+      }
+    }
+  }
+}
+
+.made {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 50px;
+  background: $grey400;
+
+  .icon {
+    color: #0ff;
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  .madeText {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, #0ff, #f0f, #0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}

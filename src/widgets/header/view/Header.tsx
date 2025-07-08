@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAuth } from '@src/shared/hooks/useAuth';
 import { Container, CustomButton, Typography } from '@src/shared/ui';
 import styles from './Header.module.scss';
-import logo from '@src/shared/assets/images/logo.png';
+import logo from '@src/shared/assets/images/saydeckLogooo.png';
 import classNames from 'classnames';
 
 export const Header = () => {
@@ -76,9 +76,7 @@ export const Header = () => {
                 <div className={styles.buttonContainer}>
                   {username ? (
                     <CustomButton color="secondary" onclick={logout}>
-                      <Typography color="black" variant="bodyText">
-                        Logout
-                      </Typography>
+                      <Typography variant="bodyText">Logout</Typography>
                     </CustomButton>
                   ) : (
                     <div className={styles.buttonSkeleton} />
@@ -88,12 +86,12 @@ export const Header = () => {
             ) : (
               <div className={styles.authButtons}>
                 <Link to={paths.loginPage}>
-                  <CustomButton color="tertiary">
+                  <CustomButton color="secondary">
                     <Typography variant="bodyText">Log in</Typography>
                   </CustomButton>
                 </Link>
                 <Link to={paths.registerPage}>
-                  <CustomButton color="secondary">
+                  <CustomButton color="primary">
                     <Typography color="black" variant="bodyText">
                       Sign Up
                     </Typography>

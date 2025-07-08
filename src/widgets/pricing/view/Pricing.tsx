@@ -3,64 +3,94 @@ import styles from './Pricing.module.scss';
 import { PricingPlan } from '../types/types';
 import { pricingPlans } from '@src/shared/constants/constants';
 import { Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@src/shared/hooks/useAuth';
 
-const PricingCard = ({ plan }: { plan: PricingPlan }) => (
-  <div className={styles.card}>
-    <div className={styles.title}>
-      <Typography variant="h3" color="white" weight="medium">
-        {plan.title}
-      </Typography>
-      {plan.isPopular && (
-        <div className={styles.isPopular}>
-          <Typography variant="extraSmall" color="lightBlue" weight="bold">
-            POPULAR
-          </Typography>
-        </div>
-      )}
-    </div>
+const PricingCard = ({ plan }: { plan: PricingPlan }) => {
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
 
-    <div className={styles.price}>
-      <Typography variant="h2" color="white">
-        {plan.price}
-        <span className={styles.smallText}> {plan.period}</span>
-      </Typography>
-    </div>
+  const handleButtonClick = () => {
+    if (plan.title === 'Free') {
+      navigate('/register');
+    } else if (plan.title === 'Pro') {
+      navigate('');
+    } else if (plan.title === 'Enterprise') {
+      navigate('');
+    }
+  };
 
-    <div className={styles.creditInfo}>
-      <Typography variant="smallText" color="grey">
-        {plan.description}
-      </Typography>
-      {plan.credit && (
-        <div className={styles.creditAmount}>
-          <Typography variant="smallText" color="grey">
-            {plan.credit}
-          </Typography>
-        </div>
-      )}
-      {plan.buttonText && (
-        <CustomButton color="secondary" size="small" disabled>
-          {plan.buttonText}
-        </CustomButton>
-      )}
-    </div>
+  const shouldShowButton = () => {
+    if (plan.title === 'Free') {
+      return !isAuth;
+    }
 
-    <div className={styles.features}>
-      <Typography variant="smallText" color="white">
-        Specifications:
-      </Typography>
-      <ul className={styles.featuresList}>
-        {plan.features.map((feature, index) => (
-          <li key={index} className={styles.listElement}>
-            <Check color="white" size={17} />
-            <Typography variant="smallText" color="grey">
-              {feature}
+    return true;
+  };
+
+  return (
+    <div className={styles.card}>
+      <div className={styles.title}>
+        <Typography variant="h3" color="white" weight="medium">
+          {plan.title}
+        </Typography>
+        {plan.isPopular && (
+          <div className={styles.isPopular}>
+            <Typography variant="extraSmall" color="lightBlue" weight="bold">
+              POPULAR
             </Typography>
-          </li>
-        ))}
-      </ul>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.price}>
+        <Typography variant="h2" color="white">
+          {plan.price}
+          <span className={styles.smallText}> {plan.period}</span>
+        </Typography>
+      </div>
+
+      <div className={styles.creditInfo}>
+        <Typography variant="smallText" color="grey">
+          {plan.description}
+        </Typography>
+        {plan.credit && (
+          <div className={styles.creditAmount}>
+            <Typography variant="smallText" color="grey">
+              {plan.credit}
+            </Typography>
+          </div>
+        )}
+        {plan.buttonText && shouldShowButton() && (
+          <CustomButton
+            color="secondary"
+            size="small"
+            onclick={handleButtonClick}
+            disabled
+          >
+            {plan.buttonText}
+          </CustomButton>
+        )}
+      </div>
+
+      <div className={styles.features}>
+        <Typography variant="smallText" color="white">
+          Specifications:
+        </Typography>
+        <ul className={styles.featuresList}>
+          {plan.features.map((feature, index) => (
+            <li key={index} className={styles.listElement}>
+              <Check color="white" size={17} />
+              <Typography variant="smallText" color="grey">
+                {feature}
+              </Typography>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const Pricing = () => {
   return (

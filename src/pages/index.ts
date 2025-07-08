@@ -23,9 +23,9 @@ export const RegisterPage = lazy(() =>
   })),
 );
 
-export const WorkplacePage = lazy(() =>
-  import('./workplace/view/WorkplacePage').then((module) => ({
-    default: module.WorkplacePage,
+export const WorkspacePage = lazy(() =>
+  import('./workspace/view/WorkspacePage').then((module) => ({
+    default: module.WorkspacePage,
   })),
 );
 
@@ -44,5 +44,17 @@ export const PricingPage = lazy(() =>
 export const FaqPage = lazy(() =>
   import('./faq/view/FaqPage').then((module) => ({
     default: module.FaqPage,
+  })),
+);
+
+export const CommunityPage = lazy(() =>
+  import('./community/view/CommunityPage').then((module) => ({
+    default: module.CommunityPage,
+  })),
+);
+
+export const BoardPage = lazy(() =>
+  import('./board/view/BoardPage').then((module) => ({
+    default: module.BoardPage,
   })),
 );

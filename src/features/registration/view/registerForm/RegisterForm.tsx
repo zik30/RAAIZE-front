@@ -51,7 +51,7 @@ export const RegisterForm = () => {
           </Typography>
           <div className={styles.registerByGoogle}>
             <CustomButton
-              color="tertiary"
+              color="secondary"
               classnames={styles.customButton}
               size="small"
               onclick={initiateGoogleAuth}
@@ -97,7 +97,7 @@ export const RegisterForm = () => {
             type="submit"
             classnames={styles.submitButton}
             size="medium"
-            color="secondary"
+            color="primary"
             disabled={isPending}
           >
             {isPending ? 'Loading...' : 'Register'}

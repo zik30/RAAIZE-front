@@ -14,13 +14,13 @@ export const useExplainPresentation = () => {
             {
               role: 'system',
               content:
-                'Ты помощник, который объясняет презентации. Для каждого слайда напиши отдельный абзац. Используй заголовки (например, "Слайд 1") и списки или выделения для важных моментов. Отвечай на русском и форматируй в markdown.',
+                'You are an assistant that explains presentations. For each slide, write a separate paragraph. Use headings (e.g., "Slide 1") and lists or highlights for important points. Reply in English and format in markdown.',
             },
             {
               role: 'user',
-              content: `Вот JSON презентации:\n${JSON.stringify(
+              content: `Here is the presentation JSON:\n${JSON.stringify(
                 presentationData,
-              )}\nПожалуйста, объясни её человеку подробно.`,
+              )}\nPlease explain it in detail to a human.`,
             },
           ],
           temperature: 0.6,
@@ -37,7 +37,7 @@ export const useExplainPresentation = () => {
       const reply = response.data?.choices?.[0]?.message?.content;
 
       if (!reply) {
-        throw new Error('Ответ от Fetch.ai пустой');
+        throw new Error('No response from Fetch.ai');
       }
 
       return reply.trim();
