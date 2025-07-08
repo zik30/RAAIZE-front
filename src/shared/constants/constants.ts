@@ -42,10 +42,10 @@ export const navigation = [
 ];
 
 export const typeMessages = [
-  'Just type your topic — SayDeck does the rest.',
-  'SayDeck designs your presentation with AI.',
-  'No more templates — SayDeck creates unique decks.',
-  'SayDeck makes your slides look like magic.',
+  'Just type your topic — MirrorAi does the rest.',
+  'MirrorAi designs your presentation with AI.',
+  'No more templates — MirrorAi creates unique decks.',
+  'MirrorAi makes your slides look like magic.',
 ];
 
 export const pricingPlans: PricingPlan[] = [

@@ -19,39 +19,39 @@ export const FAQBlock = () => {
   const FAQData = [
     {
       id: 1,
-      title: 'What is SayDeck?',
+      title: 'What is MirrorAi?',
       description:
-        'SayDeck is an AI-powered platform that helps you generate presentation slides (.pptx) using voice input, text prompts, or links to web pages like Wikipedia in under 4 seconds.',
+        'MirrorAi is an AI-powered platform that helps you generate presentation slides (.pptx) using voice input, text prompts, or links to web pages like Wikipedia in under 4 seconds.',
     },
     {
       id: 2,
-      title: 'Who is SayDeck for?',
+      title: 'Who is MirrorAi for?',
       description:
-        'SayDeck is designed for students aged 12 to 25 who need to quickly create presentations for school or university using AI assistance.',
+        'MirrorAi is designed for students aged 12 to 25 who need to quickly create presentations for school or university using AI assistance.',
     },
     {
       id: 3,
-      title: 'Do I need to register to use SayDeck?',
+      title: 'Do I need to register to use MirrorAi?',
       description:
-        'No, guests can use SayDeck with limited features. However, registered users get full access, including unlimited credits, the ability to save and edit presentations, and more.',
+        'No, guests can use MirrorAi with limited features. However, registered users get full access, including unlimited credits, the ability to save and edit presentations, and more.',
     },
     {
       id: 4,
       title: 'Can I choose the style of my presentation?',
       description:
-        'Yes! SayDeck offers a variety of templates and styles that you can select from before generating your presentation.',
+        'Yes! MirrorAi offers a variety of templates and styles that you can select from before generating your presentation.',
     },
     {
       id: 5,
-      title: 'What languages does SayDeck support?',
+      title: 'What languages does MirrorAi support?',
       description:
-        'SayDeck currently supports Russian, English, and Kyrgyz languages for both input and presentation content.',
+        'MirrorAi currently supports Russian, English, and Kyrgyz languages for both input and presentation content.',
     },
     {
       id: 6,
       title: 'How do I generate a presentation?',
       description:
-        'Simply enter a text or voice prompt, or paste a link to a webpage like Wikipedia. SayDeck will extract key information and generate a presentation for you in seconds.',
+        'Simply enter a text or voice prompt, or paste a link to a webpage like Wikipedia. MirrorAi will extract key information and generate a presentation for you in seconds.',
     },
     {
       id: 7,
