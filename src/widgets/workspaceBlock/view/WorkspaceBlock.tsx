@@ -15,6 +15,7 @@ import {
   usePresentationsQuery,
 } from '../api/usePresentationsQuery';
 import { PresentationModal } from '@src/features/presentationModal';
+import { Link } from 'react-router-dom';
 
 const typeOptions = [
   {
@@ -51,6 +52,17 @@ export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
 
   const filteredPresentations = presentations
     .filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (selectedType === 'latests') {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      } else {
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+      }
+    })
     .slice(0, 16);
 
   const formatDate = (rawDate: string) => {
@@ -85,7 +97,11 @@ export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
               placeholder={selectedType}
             ></Dropdown>
           </div>
-          {viewButton && <CustomButton color="tertiary">View All</CustomButton>}
+          {viewButton && (
+            <Link to={'/workspace'}>
+              <CustomButton color="tertiary">View All</CustomButton>
+            </Link>
+          )}
         </div>
         <div className={styles.presentations}>
           {filteredPresentations?.map((presentation) => (
@@ -101,9 +117,9 @@ export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
           ))}
         </div>
         {viewButton && (
-          <div className={styles.button}>
+          <Link to={'/workspace'} className={styles.button}>
             <CustomButton color="primary">Show more</CustomButton>
-          </div>
+          </Link>
         )}
         {preview && (
           <PresentationModal

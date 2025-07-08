@@ -1,7 +1,7 @@
 import { Container, Typography } from '@src/shared/ui';
 import styles from './Footer.module.scss';
 import { navigation, paths } from '@src/shared/constants/constants';
-import logo from '@src/shared/assets/images/logo.png';
+import logo from '@src/shared/assets/images/saydeckLogooo.png';
 import { Link } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
 

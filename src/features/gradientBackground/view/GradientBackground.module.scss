@@ -26,14 +26,13 @@
 
     background: radial-gradient(
       circle,
-      $layer1 49%,
-      $layer2 53%,
-      $layer3 56%,
-      $layer4 58%,
-      $layer5 61%,
-      $layer6 68%,
-      $layer7 75%,
-      $black 100%
+      rgba(255, 0, 255, 1) 45%,
+      rgba(255, 161, 231, 1) 50%,
+      rgba(228, 249, 255, 1) 55%,
+      rgba(0, 255, 255, 1) 58%,
+      rgba(141, 110, 235, 1) 65%,
+      rgba(117, 82, 224, 1) 75%,
+      rgba(28, 28, 28, 1) 100%
     );
     filter: blur(60px);
     opacity: 0.85;
