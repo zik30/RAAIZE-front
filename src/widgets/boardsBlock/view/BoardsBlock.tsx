@@ -10,7 +10,7 @@ import { Board } from '../types/types';
 import classNames from 'classnames';
 
 const getRandomColor = () => {
-  const colors = ['#ff4c4c', '#4caf50', '#2196f3', '#ff9800', '#9c27b0'];
+  const colors = ['#7552E0', '#D90960', '#05C1F5', '#FFA1E7', '#F03CC3'];
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
@@ -49,7 +49,10 @@ export const BoardsBlock: FC = () => {
           Ainazik&apos;s MirrorAi&apos;s boards
         </Typography>
         <div className={styles.boards}>
-          <div className={classNames(styles.board, styles.default)}>
+          <div
+            className={classNames(styles.board, styles.default)}
+            onClick={() => navigate(paths.boardPage(0))}
+          >
             <div className={styles.bg}>
               <Typography className={styles.text} color="white" variant="h3">
                 All Presentations

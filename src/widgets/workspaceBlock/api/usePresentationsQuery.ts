@@ -44,7 +44,7 @@ export const usePostPresentationMutation = () => {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      const { data } = await $authApi.post(`/templates/${id}/save`);
+      const { data } = await $authApi.post(`/templates/${id}/save`, id);
       return data;
     },
     onSuccess: () => {

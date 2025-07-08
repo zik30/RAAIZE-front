@@ -36,6 +36,8 @@ export const BoardBlock: FC = () => {
 
   const { id } = useParams<{ id: string }>();
   const { data } = useBoardQuery(id || '');
+  console.log(data);
+
   const { data: boardInfo } = useBoardInfoQuery(id || '');
   console.log(boardInfo);
 
@@ -45,6 +47,17 @@ export const BoardBlock: FC = () => {
 
   const filteredPresentations = data
     ?.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (selectedType === 'latests') {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      } else {
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+      }
+    })
     .slice(0, 16);
 
   const formatDate = (rawDate: string) => {

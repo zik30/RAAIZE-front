@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAuth } from '@src/shared/hooks/useAuth';
 import { Container, CustomButton, Typography } from '@src/shared/ui';
 import styles from './Header.module.scss';
-import logo from '@src/shared/assets/images/logo.png';
+import logo from '@src/shared/assets/images/saydeckLogooo.png';
 import classNames from 'classnames';
 
 export const Header = () => {

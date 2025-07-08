@@ -9,7 +9,11 @@ export const useBoardQuery = (id: number | string) => {
       const { data }: { data: Presentation[] } = await $authApi.get(
         '/presentations/',
       );
-      console.log(id);
+      const numericId = Number(id);
+
+      if (numericId === 0) {
+        return data;
+      }
 
       const board = data.filter(
         (presentation) => presentation.board_id === Number(id),
@@ -27,10 +31,19 @@ export const useBoardInfoQuery = (id: string | number) => {
   return useQuery({
     queryKey: ['boardInfo', id],
     queryFn: async () => {
-      const { data } = await $authApi.get(`/boards/${id}`);
+      const numericId = Number(id);
+      if (numericId === 0) {
+        return {
+          name: 'profile',
+          description: 'All beautifull presentations you have created!',
+        };
+      }
+      const { data } = await $authApi.get(`/boards/${numericId}`);
+      console.log(data);
+
       return data;
     },
-    enabled: !!id,
+    enabled: id !== undefined && id !== null && id !== '',
   });
 };
 
