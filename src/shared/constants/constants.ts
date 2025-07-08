@@ -10,10 +10,35 @@ export const paths = {
   registerPage: '/register',
   workspacePage: '/workspace',
   communityPage: '/community',
+  pricing: '/pricing',
+  faq: '/faq',
   editPage: '/edit',
   googleCallbackApi: '/api/v1/auth/google-callback',
-  pricing: '/pricing',
 };
+
+export const navigation = [
+  {
+    id: 1,
+    key: 'Community',
+    path: paths.communityPage,
+  },
+  {
+    id: 2,
+    key: 'Pricing',
+    path: paths.pricing,
+    isSoon: true,
+  },
+  {
+    id: 3,
+    key: 'Workspace',
+    path: paths.workspacePage,
+  },
+  {
+    id: 4,
+    key: 'FAQ',
+    path: paths.faq,
+  },
+];
 
 export const typeMessages = [
   'Just type your topic — SayDeck does the rest.',

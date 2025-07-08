@@ -1,177 +1,132 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import styles from './PresentationCanvas.module.scss';
-import interact from 'interactjs';
+import { usePresentationStore } from '@src/shared/store/presentationStore';
 
 export const PresentationCanvas: FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [shadowRoot, setShadowRoot] = useState<ShadowRoot | null>(null);
+  const shadowRoot = useRef<ShadowRoot | null>(null);
+
+  const { presentation, currentSlideIndex, setCurrentSlideIndex, isLoading } = usePresentationStore();
 
   useEffect(() => {
-    if (containerRef.current && !shadowRoot) {
-      const shadow = containerRef.current.attachShadow({ mode: 'open' });
-      setShadowRoot(shadow);
+    if (containerRef.current && !shadowRoot.current) {
+      shadowRoot.current = containerRef.current.attachShadow({ mode: 'open' });
+    }
+  }, []);
+
+  useEffect(() => {
+    const root = shadowRoot.current;
+    if (!root) return;
+
+    if (!presentation || !presentation.slides.length) {
+      root.innerHTML = '<p style="padding: 20px; color: #888">Нет презентации</p>';
+      return;
     }
 
-    const handler = (e: Event) => {
-      const customEvent = e as CustomEvent<string>;
-      if (typeof customEvent.detail === 'string' && shadowRoot) {
-        const doc = new DOMParser().parseFromString(customEvent.detail, 'text/html');
+    root.innerHTML = '';
 
-        shadowRoot.innerHTML = '';
+    const wrapper = document.createElement('div');
+    wrapper.style.width = '960px';
+    wrapper.style.height = '540px';
+    wrapper.style.position = 'relative';
+    wrapper.style.overflow = 'hidden';
+    wrapper.style.background = '#fff';
+    wrapper.style.borderRadius = '12px';
+    wrapper.style.boxSizing = 'border-box';
+    wrapper.style.padding = '20px';
+    wrapper.style.boxShadow = '0 0 15px rgba(0,0,0,0.1)';
+    wrapper.style.transformOrigin = 'top left';
 
-        const styleEl = doc.querySelector('style');
-        if (styleEl) {
-          const style = document.createElement('style');
-          style.textContent = styleEl.textContent || '';
-          shadowRoot.appendChild(style);
-        }
+    const slide = presentation.slides[currentSlideIndex];
+    const slideEl = document.createElement('div');
+    slideEl.style.width = '100%';
+    slideEl.style.height = '100%';
+    slideEl.style.boxSizing = 'border-box';
 
-        const slidesWrapper = document.createElement('div');
-        slidesWrapper.className = 'slides-container';
+    const titleEl = document.createElement('div');
+    titleEl.innerHTML = slide.title;
+    titleEl.contentEditable = 'true';
+    titleEl.style.fontSize = '28px';
+    titleEl.style.fontWeight = 'bold';
+    titleEl.style.marginBottom = '15px';
 
-        const slides = Array.from(doc.querySelectorAll('.slide'));
-        slides.forEach((slide, idx) => {
-          const cloned = slide.cloneNode(true) as HTMLElement;
-          cloned.classList.add('slide');
-          if (idx === 0) cloned.classList.add('active');
+    const contentEl = document.createElement('div');
+    contentEl.innerHTML = slide.content;
+    contentEl.contentEditable = 'true';
+    contentEl.style.fontSize = '20px';
 
-          cloned.querySelectorAll('*').forEach((el) => {
-            const elem = el as HTMLElement;
+    slideEl.appendChild(titleEl);
+    slideEl.appendChild(contentEl);
 
-            elem.ondblclick = () => {
-              elem.setAttribute('contenteditable', 'true');
-              elem.focus();
-            };
-            elem.onblur = () => {
-              elem.removeAttribute('contenteditable');
-            };
+    if (slide.image?.url) {
+      const img = document.createElement('img');
+      img.src = slide.image.url;
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = '250px';
+      img.style.marginTop = '20px';
+      img.style.borderRadius = '8px';
+      slideEl.appendChild(img);
+    }
 
-            if (elem.tagName.match(/^(P|H1|H2|H3|DIV|SPAN)$/)) {
-              elem.classList.add('draggable-resizable');
-              elem.style.position = 'relative';
-              elem.style.display = 'inline-block';
-              elem.style.userSelect = 'none';
-              elem.style.minWidth = '20px';
-              elem.style.minHeight = '20px';
-              elem.style.padding = '2px 4px';
-              elem.style.border = '1px dashed transparent';
-              elem.style.cursor = 'move';
+    wrapper.appendChild(slideEl);
+    root.appendChild(wrapper);
 
-              elem.addEventListener('focus', () => {
-                elem.style.userSelect = 'text';
-                elem.style.border = '1px solid #4F46E5';
-                elem.style.cursor = 'text';
-              });
-              elem.addEventListener('blur', () => {
-                elem.style.userSelect = 'none';
-                elem.style.border = '1px dashed transparent';
-                elem.style.cursor = 'move';
-              });
-            }
-          });
+    const nav = document.createElement('div');
+    nav.style.display = 'flex';
+    nav.style.justifyContent = 'center';
+    nav.style.gap = '8px';
+    nav.style.marginTop = '20px';
 
-          slidesWrapper.appendChild(cloned);
-        });
+    for (let i = 0; i < presentation.slides.length; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = `${i + 1}`;
+      btn.style.padding = '8px 12px';
+      btn.style.borderRadius = '6px';
+      btn.style.background = i === currentSlideIndex ? '#4F46E5' : '#E5E7EB';
+      btn.style.color = i === currentSlideIndex ? '#fff' : '#111827';
+      btn.onclick = () => setCurrentSlideIndex(i);
+      nav.appendChild(btn);
+    }
 
-        shadowRoot.appendChild(slidesWrapper);
+    root.appendChild(nav);
 
-        const navWrapper = document.createElement('div');
-        navWrapper.style.display = 'flex';
-        navWrapper.style.justifyContent = 'center';
-        navWrapper.style.marginTop = '20px';
-        navWrapper.style.gap = '10px';
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.clientWidth;
+      const containerHeight = containerRef.current.clientHeight;
+      const scaleX = containerWidth / 1000; 
+      const scaleY = containerHeight / 600;
+      const maxClientScale = Math.min(scaleX, scaleY, 1);
 
-        let currentSlide = 0;
+      const backendScale = slide.scale ?? 1; 
 
-        const updateSlides = () => {
-          const all = shadowRoot.querySelectorAll('.slide');
-          all.forEach((el, idx) => {
-            el.classList.toggle('active', idx === currentSlide);
-          });
-        };
+      const finalScale = Math.min(maxClientScale, backendScale);
 
-        const renderSlideButtons = () => {
-          navWrapper.innerHTML = '';
+      wrapper.style.transform = `scale(${finalScale})`;
+    }
+  }, [presentation, currentSlideIndex]);
 
-          slides.forEach((_, idx) => {
-            const btn = document.createElement('button');
-            btn.textContent = `${idx + 1}`;
-            btn.style.padding = '10px 16px';
-            btn.style.borderRadius = '12px';
-            btn.style.border = 'none';
-            btn.style.backgroundColor = idx === currentSlide ? '#4F46E5' : '#E5E7EB';
-            btn.style.color = idx === currentSlide ? '#fff' : '#111827';
-            btn.style.fontWeight = 'bold';
-            btn.style.cursor = 'pointer';
-
-            btn.onclick = () => {
-              currentSlide = idx;
-              updateSlides();
-              renderSlideButtons();
-            };
-
-            navWrapper.appendChild(btn);
-          });
-
-          const plusBtn = document.createElement('button');
-          plusBtn.textContent = '+';
-          plusBtn.style.padding = '10px 16px';
-          plusBtn.style.borderRadius = '12px';
-          plusBtn.style.border = 'none';
-          plusBtn.style.backgroundColor = '#D1D5DB';
-          plusBtn.style.color = '#111827';
-          plusBtn.style.cursor = 'pointer';
-
-          plusBtn.onclick = () => alert('Добавление слайда пока не реализовано');
-
-          navWrapper.appendChild(plusBtn);
-        };
-
-        renderSlideButtons();
-        shadowRoot.appendChild(navWrapper);
-        updateSlides();
-
-        setTimeout(() => {
-          if (!shadowRoot) return;
-          const draggableElems = shadowRoot.querySelectorAll('.draggable-resizable');
-          draggableElems.forEach(elem => {
-            interact(elem).draggable({
-              listeners: {
-                move(event) {
-                  const target = event.target as HTMLElement;
-                  const x = (parseFloat(target.getAttribute('data-x') || '0') || 0) + event.dx;
-                  const y = (parseFloat(target.getAttribute('data-y') || '0') || 0) + event.dy;
-                  target.style.transform = `translate(${x}px, ${y}px)`;
-                  target.setAttribute('data-x', x.toString());
-                  target.setAttribute('data-y', y.toString());
-                }
-              }
-            }).resizable({
-              edges: { left: true, right: true, bottom: true, top: true },
-              modifiers: [
-                interact.modifiers.restrictSize({
-                  min: { width: 50, height: 20 },
-                }),
-              ],
-            }).on('resizemove', (event) => {
-              const target = event.target as HTMLElement;
-              const { width, height } = event.rect;
-              target.style.width = `${width}px`;
-              target.style.height = `${height}px`;
-              const x = (parseFloat(target.getAttribute('data-x') || '0') || 0) + event.deltaRect.left;
-              const y = (parseFloat(target.getAttribute('data-y') || '0') || 0) + event.deltaRect.top;
-              target.style.transform = `translate(${x}px, ${y}px)`;
-              target.setAttribute('data-x', x.toString());
-              target.setAttribute('data-y', y.toString());
-            });
-          });
-        }, 100);
-      }
-    };
-
-    window.addEventListener('presentation-generated', handler);
-    return () => window.removeEventListener('presentation-generated', handler);
-  }, [shadowRoot]);
-
-  return <div className={styles.canvasWrapper} ref={containerRef} />;
+  return (
+    <div
+      className={styles.canvasWrapper}
+      ref={containerRef}
+    >
+      {isLoading && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(255,255,255,0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10,
+          }}
+        >
+          <div style={{ fontSize: 22, color: '#4F46E5', fontWeight: 600 }}>
+            ⏳ Генерируется презентация...
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };

@@ -1,4 +1,9 @@
 import { lazy } from 'react';
+export const PresentationPage = lazy(() =>
+  import('./presentation/view/Presentation').then((module) => ({
+    default: module.Presentation,
+  })),
+);
 
 export const HomePage = lazy(() =>
   import('./home/view/HomePage').then((module) => ({
@@ -33,5 +38,11 @@ export const GoogleAuthPage = lazy(() =>
 export const PricingPage = lazy(() =>
   import('./pricing/view/PricingPage').then((module) => ({
     default: module.PricingPage,
+  })),
+);
+
+export const FaqPage = lazy(() =>
+  import('./faq/view/FaqPage').then((module) => ({
+    default: module.FaqPage,
   })),
 );

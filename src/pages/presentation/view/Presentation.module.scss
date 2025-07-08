@@ -1,20 +1,26 @@
 .section {
-    display: flex;
-    gap: 20px;
-    background-color: $primary;
-    padding-top: 100px;
-
+  display: flex;
+  gap: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: $black;
 }
+
 .chat {
-    width: 40%;
-    min-width: 320px;
-    max-width: 480px;
-    padding: 10px;
-    border-radius: 1.5px solid $grey000;
-    box-shadow: 0 4px 32px 0 rgba(123, 97, 255, 0.04);
-
+  flex: 0 0 440px;
+  display: flex;
+  flex-direction: column;
+  background: $black;
+  height: 100%;
+  border-right: 1px solid #374151;
+  padding: 0;
+  position: relative;
+  z-index: 2;
 }
+
 .present {
-    margin: 0 auto;
-    width: 100%;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
 }
