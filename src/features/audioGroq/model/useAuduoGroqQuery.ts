@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { IMic } from '../types/types';
 
-const API_KEY = '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';
+const API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
 export const useAudioGroqQuery = () => {
   return useMutation<IMic, Error, Blob>({

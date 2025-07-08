@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-const API_KEY = 'sk_f292d5c01116477aae801623c6c07d9c2ef6cfa1af3a4f64afc8907a0d0248c3';
+const API_KEY = import.meta.env.VITE_FETCH_API;
 
 export const useExplainPresentation = () => {
   return useMutation<string, Error, any>({
