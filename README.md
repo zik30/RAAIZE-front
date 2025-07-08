@@ -1,69 +1,61 @@
-# React + TypeScript + Vite
+# 🪞 MirrorAI – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MirrorAI is an AI-powered web platform that lets users generate, customize, and collaborate on stunning presentations using text or voice. This is the frontend repository built with React and TypeScript.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 🎤 **Voice-to-Deck**: Generate presentations using speech input, powered by ultra-fast **Groq Speech models**.
+- ✍️ **Smart Text Generation**: Get AI-generated content for slides using **Fetch.ai agents**.
+- 🎨 **Editable Layouts**: Users can resize, move, and re-style elements for full creative control.
+- 🗂️ **Boards for Organization**: Presentations are grouped into themed boards.
+- 🔄 **Real-Time Collaboration**: Teams can co-edit slides simultaneously.
+- 🔐 **Authentication System**: Save and download presentations after logging in.
+- 🌍 **Template Sharing**: Users can publish presentations for others to remix as templates.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **React + TypeScript**
+- **Vite** (or Webpack, if applicable)
+- **SCSS Modules**
+- **Zustand / Redux** (state management)
+- **Groq API** – for real-time speech recognition
+- **Fetch.ai** – for intelligent text generation
+- **REST API** – backend integration for auth, boards, presentations
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🧠 AI Models Used
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 🎙️ Groq Speech Model
+Used to convert voice input into structured prompts for AI-based presentation generation. Extremely low latency and high accuracy.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 🤖 Fetch.ai Agents
+Autonomous agents simulate smart text generation, formatting ideas into presentable slide content across various themes and styles.
+
+---
+
+## 📁 Folder Structure
+
+/src
+/features → presentation generation, modals, collaboration
+/pages → main routing pages (workspace, login, etc.)
+/shared → common UI components and utilities
+/app → global configs (routes, auth guards, themes)
+/entities → domain models (presentation, board, user) 
+
+Environment Variables
+Create a .env file in the root with the following:
+
+VITE_API_BASE_URL=https://your-backend-api.com
+VITE_GROQ_API_KEY=your_groq_api_key
+VITE_FETCH_AI_ENDPOINT=https://your-fetch-agent-endpoint.com
+
+📤 Deployment
+This app is deployed on Vultr, and can run on any static-compatible server (e.g., Nginx, Vercel, Netlify).
+
+🛡 License
+MIT – free to use, modify, and distribute.
