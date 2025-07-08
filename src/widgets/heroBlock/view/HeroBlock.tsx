@@ -17,11 +17,11 @@ export const HeroBlock: FC = () => {
     <section className={styles.wrapper}>
       <Container>
         <Typography align="center" color="white" variant="h1">
-          Build Presentations with SayDeck
+          Build Presentations with MirrorAi
         </Typography>
         <Typography align="center" color="white" variant="smallText">
-          SayDeck is a free and open-source tool for creating presentations with
-          Markdown.
+          MirrorAi is a free and open-source tool for creating presentations
+          with Markdown.
         </Typography>
         <InputAI
           onChange={(e) => setInputValue(e.target.value)}

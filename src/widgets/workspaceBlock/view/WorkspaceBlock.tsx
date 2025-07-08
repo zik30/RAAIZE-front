@@ -79,7 +79,7 @@ export const WorkspaceBlock: FC<IWorkspaceProps> = ({ viewButton = true }) => {
     <section>
       <Container className={styles.wrapper}>
         <Typography variant="h3" color="white">
-          {username}&apos;s SayDeck&apos;s workspace
+          {username}&apos;s MirrorAi&apos;s workspace
         </Typography>
         <div className={styles.nav}>
           <div className={styles.left}>

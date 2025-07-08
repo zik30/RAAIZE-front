@@ -33,7 +33,8 @@ export const Footer = () => {
                 color="white"
                 className={styles.description}
               >
-                Creating innovative solutions for your business
+                Create full presentations in seconds — just by speaking or
+                typing
               </Typography>
             </div>
 
