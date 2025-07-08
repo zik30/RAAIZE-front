@@ -97,11 +97,8 @@ export const PresentationCanvas: FC = () => {
       const scaleY = containerHeight / 600;
       const maxClientScale = Math.min(scaleX, scaleY, 1);
 
-      const backendScale = slide.scale ?? 1; 
-
-      const finalScale = Math.min(maxClientScale, backendScale);
-
-      wrapper.style.transform = `scale(${finalScale})`;
+  
+      wrapper.style.transform = `scale(${maxClientScale})`;
     }
   }, [presentation, currentSlideIndex]);
 
