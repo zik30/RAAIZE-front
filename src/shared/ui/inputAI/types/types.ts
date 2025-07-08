@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface IInputAI {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -6,4 +8,6 @@ export interface IInputAI {
   fullWidth?: boolean;
   className?: string;
   onSubmit?: () => void;
+  onMic?: () => void;
+  children?: ReactNode;
 }

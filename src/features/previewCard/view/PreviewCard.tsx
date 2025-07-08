@@ -4,6 +4,9 @@ import styles from './PreviewCard.module.scss';
 import { CustomButton, Typography } from '@src/shared/ui';
 import { IPreviewCardProps } from '../types/types';
 import { usePreviewQuery } from '../api/usePreviewQuery';
+import { usePresentationStore } from '@src/shared/store/presentationStore';
+import { useGeneratePresentation } from '@src/widgets/presentationCanvas/api/useGeneratePresentation';
+import { useNavigate } from 'react-router-dom';
 
 export const PreviewCard: FC<IPreviewCardProps> = ({
   title,
@@ -12,6 +15,41 @@ export const PreviewCard: FC<IPreviewCardProps> = ({
   setIsOpen,
 }) => {
   const { data } = usePreviewQuery(id);
+  const { setPresentation, setIsLoading } = usePresentationStore();
+
+  const { mutateAsync: generatePresentation } = useGeneratePresentation();
+  const navigate = useNavigate();
+
+  const handleRemix = async () => {
+    if (!data) return;
+
+    try {
+      setIsLoading(true);
+
+      const generated = await generatePresentation({
+        topic: title,
+        slides_count: 5,
+        audience: 'general',
+        style: 'modern', 
+        language: 'ru',
+        include_images: true,
+        image_style: 'professional',
+        auto_enhance: true,
+      });
+
+      const parsedPresentation = typeof generated === 'string' ? JSON.parse(generated) : generated;
+      setIsOpen(''); 
+      navigate('/edit');
+      setPresentation(parsedPresentation);
+
+      setIsOpen('');
+    } catch (error) {
+      console.error('Ошибка генерации презентации:', error);
+      alert('Ошибка при генерации презентации');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <motion.div
@@ -42,7 +80,7 @@ export const PreviewCard: FC<IPreviewCardProps> = ({
           }}
           transition={{ duration: 0.3 }}
         >
-          <CustomButton classnames={styles.button} color="primary">
+          <CustomButton classnames={styles.button} color="primary" onclick={handleRemix}>
             Remix
           </CustomButton>
           <CustomButton

@@ -12,7 +12,7 @@ export const privateRouter = [
     ),
   },
   {
-    path: '/boards/:id', // dynamic route
+    path: '/boards/:id', 
     element: (
       <AuthGuard>
         <BoardPage />

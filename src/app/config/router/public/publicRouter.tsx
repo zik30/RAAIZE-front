@@ -1,4 +1,5 @@
 import { FaqPage, HomePage, PricingPage } from '@src/pages';
+import { Presentation } from '@src/pages/presentation';
 import { CommunityPage } from '@src/pages/community';
 import { paths } from '@src/shared/constants/constants';
 
@@ -18,5 +19,9 @@ export const publicRouter = [
   {
     path: paths.faq,
     element: <FaqPage />,
+  },
+  {
+    path: paths.editPage,
+    element: <Presentation />,
   },
 ];

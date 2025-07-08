@@ -1,4 +1,9 @@
 import { lazy } from 'react';
+export const PresentationPage = lazy(() =>
+  import('./presentation/view/Presentation').then((module) => ({
+    default: module.Presentation,
+  })),
+);
 
 export const HomePage = lazy(() =>
   import('./home/view/HomePage').then((module) => ({

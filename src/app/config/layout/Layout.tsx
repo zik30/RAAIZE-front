@@ -23,6 +23,7 @@ export const Layout = () => {
     paths.loginPage,
     paths.registerPage,
     paths.googleCallbackApi,
+    paths.editPage,
   ];
 
   const shouldHideLayout = hideLayoutPages.includes(location.pathname);

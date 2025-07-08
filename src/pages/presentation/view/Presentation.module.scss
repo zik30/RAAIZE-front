@@ -1,0 +1,26 @@
+.section {
+  display: flex;
+  gap: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: $black;
+}
+
+.chat {
+  flex: 0 0 440px;
+  display: flex;
+  flex-direction: column;
+  background: $black;
+  height: 100%;
+  border-right: 1px solid #374151;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.present {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
